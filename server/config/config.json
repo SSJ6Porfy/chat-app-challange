@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "porfiriomatias",
+    "password": null,
+    "database": "chat-app-dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "porfiriomatias",
+    "password": null,
+    "database": "chat-app-dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
