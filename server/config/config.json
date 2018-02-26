@@ -12,5 +12,11 @@
     "database": "chat-app-dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "porfiriomatias",
+    "password": null,
+    "database": "chat-app-pro",
+    "dialect": "postgres"
   }
 }
