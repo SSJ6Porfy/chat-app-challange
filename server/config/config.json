@@ -14,10 +14,6 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "porfiriomatias",
-    "password": null,
-    "host": "127.0.0.1",
-    "database": "chat-app-pro",
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL"
   }
 }
