@@ -16,6 +16,10 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true
       },
+      sessionToken: {
+        type: Sequelize.STRING,
+        unique: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

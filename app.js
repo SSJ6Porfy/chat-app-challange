@@ -13,22 +13,14 @@ app.use(logger('dev'));
 
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Parse cookies in the browser
 app.use(cookieParser());
 
-require('./server/routes')(app);
-
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the beginning of nothingness.',
-}));
-
-
-// initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
   key: 'user_sid',
-  secret: 'somerandonstuffs',
+  secret: 'asappcodingchallenge',
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -36,26 +28,8 @@ app.use(session({
   }
 }));
 
-// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
-// This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
-app.use((req, res, next) => {
-  if (req.cookies.user_sid && !req.session.user) {
-      res.clearCookie('user_sid');        
-  }
-  next();
-});
 
-// middleware function to check for logged-in users
-const sessionChecker = (req, res, next) => {
-  if (req.session.user && req.cookies.user_sid) {
-      res.redirect('/dashboard');
-  } else {
-      next();
-  }    
-};
-
-
-// Setup a default catch-all route that sends back a welcome message in JSON format.
+require('./server/routes')(app);
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
 }));

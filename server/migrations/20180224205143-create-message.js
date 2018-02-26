@@ -8,11 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.INTEGER
+      senderId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      sent: {
-        type: Sequelize.BOOLEAN
+      recipientId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       body: {
         type: Sequelize.STRING

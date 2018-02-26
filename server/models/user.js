@@ -1,35 +1,57 @@
 'use strict';
-let bcrypt = require("bcrypt");
+var bcrypt = require('bcrypt');
+var Sequelize = require('sequelize');
+const env = process.env.NODE_ENV || 'development';
+const config = require(`${__dirname}/../config/config.json`)[env];
+const sequelize = require('./index');
 
-module.exports = (sequelize, DataTypes) => {
-  var User = sequelize.define('User', {
-    username: { 
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    passwordDigest: { 
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  }, {
-    hooks: {
-      beforeCreate: (user) => {
-        const salt = bcrypt.genSaltSync();
-        user.passwordDigest = bcrypt.hashSync(user.password, salt);
-      }
-    },
-    instanceMethods: {
-      validPassword: function(password) {
-        return bcrypt.compareSync(password, this.passwordDigest);
-      }
-    }
-  });
-  User.associate = (models) => {
-    // associations can be defined here
-    User.hasMany(models.Message, {
-      foreignKey: "userId",
-      as: "messages"
-    });
-  };
-  return User;
+var User = sequelize.define('User', {
+	username: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		validate: {
+			notEmpty: true
+		}
+	},
+	passwordDigest: {
+		type: Sequelize.STRING,
+		validate: {
+			notEmpty: true
+		}
+	},
+	sessionToken: {
+		type: Sequelize.STRING,
+		validate: {
+			notEmpty: true
+		}
+	},
+}, {
+	freezeTableName: true,
+	indexes: [{unique: true, fields: ['username']}],
+	hooks: {
+		beforeCreate: (user) => {
+			if (user.passwordDigest) {
+				const salt = bcrypt.genSaltSync();
+				user.passwordDigest = bcrypt.hashSync(user.passwordDigest, 10,salt);
+			}
+		}
+	},
+});
+
+User.associate = (models) => {
+	User.hasMany(models.Message, {
+		foreignKey: 'userId',
+		as: 'messages',
+	});
 };
+
+User.prototype.authenticate = function(value) {
+	if (bcrypt.compareSync(value, this.passwordDigest)) {
+		return this;
+	} else {
+		return false;
+	}
+};
+
+
+module.exports = User;

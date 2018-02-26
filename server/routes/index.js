@@ -1,14 +1,64 @@
 const usersController = require('../controllers').users;
-const messagesController = require('../controllers/messages');
+const messagesController = require('../controllers').messages;
+const User = require('../models/user');
 
 module.exports = (app) => {
-    app.get('/api', (req, res) => res.status(200).send({
-      message: 'Welcome to the Chat App API!',
-    }));
-  
-    app.post('/api/users', usersController.create);
 
-    app.get('/api/messages', messagesController.index);
-    app.post('/api/messages', messagesController.create);
-    app.get('/api/messages/:messageId', messagesController.show);
+  app.use((req, res, next) => {
+    if (req.cookies.user_sid && !req.session.user) {
+        res.clearCookie('user_sid');        
+    }
+    next();
+  });
+
+  var sessionChecker = (req, res, next) => {
+    console.log(req.session.user);
+    console.log(req.cookies.user_sid);
+    if (req.session.user && req.cookies.user_sid) {
+        res.redirect('/api/main');
+    } else {
+        next();
+    }    
   };
+
+
+  // route for Home-Page
+  app.get('/', sessionChecker, (req, res) => {
+    res.redirect('/api/login');
+  });
+
+  app.route('/api/login')
+    .get(sessionChecker, (req, res) => res.status(200).send({
+      message: 'Welcome to the Login Page',
+    }))
+    .post((req, res) => {
+        var username = req.body.username,
+            password = req.body.password;
+
+        User.findOne({ where: { username: username } }).then(function (user) {
+            if (!user) {
+                res.redirect('/api/login');
+                console.log("failed login");
+            } else if (!user.authenticate(password)) {
+                res.redirect('/api/login');
+                console.log("failed login");
+            } else {
+                req.session.user = user.dataValues;
+                console.log("successful login");
+                res.redirect('/api/main');
+            }
+        });
+    });
+
+  app.get('/api/main', (req, res) => res.status(200).send({
+    message: 'Welcome to the Chat App API!',
+  }));
+
+  app.get('/api/users/:userId', usersController.show);
+  app.post('/api/users', usersController.create);
+
+
+  app.get('/api/users/:userId/messages', messagesController.index);
+  app.post('/api/messages', messagesController.create);
+  app.get('/api/messages/:messageId', messagesController.show);
+};
