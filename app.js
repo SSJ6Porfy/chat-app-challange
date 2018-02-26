@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
+const session = require('cookie-session');
 const User = require('./server/models/user');
 
 // Set up the express app
