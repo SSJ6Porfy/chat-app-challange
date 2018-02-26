@@ -12,8 +12,6 @@ module.exports = (app) => {
   });
 
   var sessionChecker = (req, res, next) => {
-    console.log(req.session.user);
-    console.log(req.cookies.user_sid);
     if (req.session.user && req.cookies.user_sid) {
         res.redirect('/api/main');
     } else {
@@ -38,13 +36,10 @@ module.exports = (app) => {
         User.findOne({ where: { username: username } }).then(function (user) {
             if (!user) {
                 res.redirect('/api/login');
-                console.log("failed login");
             } else if (!user.authenticate(password)) {
                 res.redirect('/api/login');
-                console.log("failed login");
             } else {
                 req.session.user = user.dataValues;
-                console.log("successful login");
                 res.redirect('/api/main');
             }
         });
@@ -56,7 +51,6 @@ module.exports = (app) => {
 
   app.get('/api/users/:userId', usersController.show);
   app.post('/api/users', usersController.create);
-
 
   app.get('/api/users/:userId/messages', messagesController.index);
   app.post('/api/messages', messagesController.create);
