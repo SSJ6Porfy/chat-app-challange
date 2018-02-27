@@ -3,7 +3,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('cookie-session');
-const User = require('./server/models/user');
+const db = require('./server/models');
 
 // Set up the express app
 const app = express();
@@ -28,10 +28,11 @@ app.use(session({
   }
 }));
 
-
 require('./server/routes')(app);
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
 }));
+
+db.sync();
 
 module.exports = app;

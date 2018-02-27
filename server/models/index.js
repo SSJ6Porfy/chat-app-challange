@@ -11,6 +11,7 @@ var db        = {};
 
 let sequelize;
 if (config.use_env_variable) {
+  console.log(config);
   sequelize = new Sequelize(config.database);
 } else {
   sequelize = new Sequelize(
