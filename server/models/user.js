@@ -1,5 +1,6 @@
 'use strict';
 var bcrypt = require('bcrypt');
+var randomString = require('random-base64-string');
 
 module.exports = (sequelize, DataTypes) => {
 	var User = sequelize.define("User", {
@@ -29,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 			if (user.passwordDigest) {
 				const salt = bcrypt.genSaltSync();
 				user.passwordDigest = bcrypt.hashSync(user.passwordDigest, 10,salt);
+				user.sessionToken = randomString(16);
 			}
 		}
 	},

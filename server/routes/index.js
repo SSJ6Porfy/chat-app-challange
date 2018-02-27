@@ -21,9 +21,9 @@ module.exports = (app) => {
 
 
   // route for Home-Page
-  app.get('/', sessionChecker, (req, res) => {
-    res.redirect('/api/login');
-  });
+//   app.get('/', sessionChecker, (req, res) => {
+//     res.redirect('/api/login');
+//   });
 
   app.route('/api/login')
     .get(sessionChecker, (req, res) => res.status(200).send({
@@ -45,9 +45,9 @@ module.exports = (app) => {
         });
     });
 
-  app.get('/api/main', (req, res) => res.status(200).send({
-    message: 'Welcome to the Chat App API!',
-  }));
+//   app.get('/', (req, res) => res.status(200).send({
+//     message: 'Welcome to the Chat App API!',
+//   }));
 
   app.get('/api/users/:userId', usersController.show);
   app.post('/api/users', usersController.create);

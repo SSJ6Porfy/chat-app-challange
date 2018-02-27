@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('cookie-session');
 const db = require('./server/models');
+var path = require('path');
+const ejs = require('ejs');
 
 // Set up the express app
 const app = express();
@@ -28,10 +30,13 @@ app.use(session({
   }
 }));
 
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname));
+
 require('./server/routes')(app);
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the beginning of nothingness.',
-}));
+app.get('/', (req, res) => {
+  res.render(path.join(__dirname, '/frontend/static/index.ejs'));
+});
 
 
 app.listen(process.env.PORT || 3000, function(){
