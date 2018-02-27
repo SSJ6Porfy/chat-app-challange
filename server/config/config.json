@@ -16,7 +16,7 @@
   "production": {
     "username": "porfiriomatias",
     "password": null,
-    "use_env_variable": "DATABASE_URL",
+    "use_env_variable": "postgres://wndmgcjfnjhlks:58cb94cefc652b2ea08f06b4bc81a409983f8591fd649fc36bcc0482ed4f3526@ec2-54-225-249-161.compute-1.amazonaws.com:5432/d1gr643cag3b01",
     "dialect": "postgres"
   }
 }
