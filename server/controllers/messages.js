@@ -1,12 +1,12 @@
-const Message = require("../models/message");
+const Message = require("../models/index").db.Message;
 
 module.exports = {
     create(req, res) {
         console.log(req.body);
         return Message
             .create({ 
-                userId: req.body.userId,
-                sent: req.body.sent,
+                senderId: req.body.senderId,
+                recipientId: req.body.recipientId,
                 body: req.body.body
             })
             .then(message => res.status(201).send(message))

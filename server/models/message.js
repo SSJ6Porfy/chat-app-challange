@@ -1,20 +1,17 @@
 'use strict';
-var Sequelize = require('sequelize');
-const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/../config/config.json`)[env];
-const sequelize = require('./index');
 
-const Message = sequelize.define('Message', {
-  senderId: { 
-    type: Sequelize.INTEGER,
+module.exports = (sequelize, DataTypes) => {
+var Message = sequelize.define("Message", {
+  userId: { 
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   recipientId: { 
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   body: { 
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false
   }
 }, {});
@@ -24,10 +21,9 @@ Message.associate = (models) => {
   Message.belongsTo(models.User, {
     foreignKey: "userId",
     onDelete: "CASCADE",
-    as: "author"
   });
 };
 
-// sequelize.sync();
+  return Message;
 
-module.exports = Message;
+};

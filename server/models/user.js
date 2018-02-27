@@ -1,32 +1,28 @@
 'use strict';
 var bcrypt = require('bcrypt');
-var Sequelize = require('sequelize');
-const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/../config/config.json`)[env];
-const sequelize = require('./index');
 
-var User = sequelize.define('User', {
+module.exports = (sequelize, DataTypes) => {
+	var User = sequelize.define("User", {
 	username: {
-		type: Sequelize.STRING,
+		type: DataTypes.STRING,
 		allowNull: false,
 		validate: {
 			notEmpty: true
 		}
 	},
 	passwordDigest: {
-		type: Sequelize.STRING,
+		type: DataTypes.STRING,
 		validate: {
 			notEmpty: true
 		}
 	},
 	sessionToken: {
-		type: Sequelize.STRING,
+		type: DataTypes.STRING,
 		validate: {
 			notEmpty: true
 		}
 	},
 }, {
-	freezeTableName: true,
 	indexes: [{unique: true, fields: ['username']}],
 	hooks: {
 		beforeCreate: (user) => {
@@ -37,21 +33,19 @@ var User = sequelize.define('User', {
 		}
 	},
 });
+	User.prototype.authenticate = function(value) {
+		if (bcrypt.compareSync(value, this.passwordDigest)) {
+			return this;
+		} else {
+			return false;
+		}
+	};
 
-User.associate = (models) => {
-	User.hasMany(models.Message, {
-		foreignKey: 'userId',
-		as: 'messages',
-	});
+	User.associate = (models) => {
+		User.hasMany(models.Message, {
+			foreignKey: 'userId',
+			as: 'messages',
+		});
+	};
+	return User;
 };
-
-User.prototype.authenticate = function(value) {
-	if (bcrypt.compareSync(value, this.passwordDigest)) {
-		return this;
-	} else {
-		return false;
-	}
-};
-
-
-module.exports = User;
