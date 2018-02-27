@@ -33,6 +33,4 @@ app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
 }));
 
-db.sequelize.sync();
-
 module.exports = app;
