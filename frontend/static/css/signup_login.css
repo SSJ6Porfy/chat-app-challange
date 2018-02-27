@@ -1,0 +1,100 @@
+.splash {
+    display: flex;
+    justify-content: center;
+    margin-top: 15%;
+  }
+  .splash-content {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .splash-logged-in {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .splash-greeting h1, .splash-greeting h2 {
+    color: #FF5722;
+    font-family: sans-serif;
+  }
+  
+  .splash-greeting h1 {
+    font-size: 60px;
+  }
+  
+  .splash-form input[type="text"],.splash-form input[type="password"] {
+    border: none;
+    border-bottom: 1px solid #BDBDBD;
+    color: #757575;
+    outline: 0;
+    width: 100%;
+    font-size: 18px;
+    padding-left: 5px;
+    padding-bottom: 3px;
+  }
+  
+  .splash-form input[type="text"]:focus,.splash-form input[type="password"]:focus {
+    border: none;
+    border-bottom: 1px solid #455A64;
+    color: #455A64;
+  }
+  
+  .splash-form input[type="text"]:hover,.splash-form input[type="password"]:hover {
+    border: none;
+    border-bottom: 1px solid #FF5722;
+    color: #FF5722;
+  }
+  
+  
+  .login-btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  #login-btn, #demo-btn, #signup-btn {
+    box-shadow: 2px 2px 5px #888888;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    outline: 0;
+    width: 100px;
+    font-size: 14px;
+  }
+  
+  #login-btn, #demo-btn {
+    background: white;
+    font-weight: bold;
+    border: 1px solid #455A64;
+    width: 100px;
+  }
+
+  #signup-btn {
+    background: #FF5722;
+    border: none;
+    font-weight: bold;
+    color: white;
+  }
+  
+  #login-btn:hover, #demo-btn:hover {
+    background: #455A64;
+    color: white;
+    cursor: pointer;
+  }
+
+  #signup-btn:hover {
+    cursor: pointer;
+    border: 1px solid #455A64;
+  }
+  
+  .splash-form {
+    width: 400px;
+  }
+  
+  .errors {
+    font-weight: bold;
+    color: red;
+    list-style: none;
+  }  

@@ -31,7 +31,7 @@ app.use(session({
 }));
 
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + "/frontend/static"));
 
 require('./server/routes')(app);
 app.get('/', (req, res) => {

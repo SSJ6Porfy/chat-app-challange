@@ -8,7 +8,7 @@ module.exports = {
                 username: req.body.username,
                 passwordDigest: req.body.password
             })
-            .then(user => res.status(200).send(user))
+            .then(user => res.json(user))
             .catch(error => { 
                 console.log(error);
                 res.status(400).send(error);
@@ -17,7 +17,7 @@ module.exports = {
     show(req, res) {
         return User
             .findById(req.params.userId)
-            .then(user => res.status(201).send(user))
+            .then(user => res.json(user))
             .catch(error => res.status(400).send(error));
     },
 };
