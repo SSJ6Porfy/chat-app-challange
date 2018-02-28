@@ -1,0 +1,22 @@
+.messages-index-container {
+    width: 50%;
+    height: 100%;
+}
+
+.messages-index {
+    width: 100%;
+    height: 80%;
+}
+
+.message-form-container {
+    height: 20%;
+    width: 100%;
+}
+
+.message-form {
+    height: 99%;
+}
+.message-input {
+    width: 99%;
+    height: 99%;
+}

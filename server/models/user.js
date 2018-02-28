@@ -1,6 +1,6 @@
 'use strict';
 var bcrypt = require('bcrypt');
-var randomString = require('random-base64-string');
+const jwt = require('jsonwebtoken');
 
 module.exports = (sequelize, DataTypes) => {
 	var User = sequelize.define("User", {
@@ -30,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
 			if (user.passwordDigest) {
 				const salt = bcrypt.genSaltSync();
 				user.passwordDigest = bcrypt.hashSync(user.passwordDigest, 10,salt);
-				user.sessionToken = randomString(16);
 			}
 		}
 	},
@@ -42,6 +41,37 @@ module.exports = (sequelize, DataTypes) => {
 			return false;
 		}
 	};
+
+	User.prototype.generateToken = function() {
+		const user = this;
+
+  		// 1 week expiration
+  		const token = jwt.sign(
+			{ _id: user._id }, 
+			process.env.JWT_TOKEN || 'supersecretkey', 
+			{ expiresIn: 604800 });
+		
+			return `JWT ${token}`;
+	};
+	
+	User.findByCredentials = function(username, password) {
+
+		return User.findOne({ where: { username: username } }).then(user => {
+		  if (!user) {
+			return Promise.reject();
+		  }
+	  
+		  return new Promise((resolve, reject) => { // eslint-disable-line no-undef
+			bcrypt.compare(password, user.passwordDigest, (err, res) => {
+			  if (res) {
+				resolve(user);
+			  } else {
+				reject();
+			  }
+			});
+		  });
+		});
+	  };
 
 	User.associate = (models) => {
 		User.hasMany(models.Message, {

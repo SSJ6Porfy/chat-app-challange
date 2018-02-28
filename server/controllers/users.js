@@ -2,13 +2,12 @@ const User = require("../models/index").db.User;
 
 module.exports = {
     create(req, res) {
-        console.log(req.body);
         return User
             .create({ 
-                username: req.body.username,
-                passwordDigest: req.body.password
+                username: req.body.user.username,
+                passwordDigest: req.body.user.password
             })
-            .then(user => res.json(user))
+            .then(user => res.json({id: user.id, username: user.username}))
             .catch(error => { 
                 console.log(error);
                 res.status(400).send(error);

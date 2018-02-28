@@ -2,7 +2,6 @@ const Message = require("../models/index").db.Message;
 
 module.exports = {
     create(req, res) {
-        console.log(req.body);
         return Message
             .create({ 
                 senderId: req.body.senderId,
@@ -12,11 +11,13 @@ module.exports = {
             .then(message => res.json(message))
             .catch(error => res.status(400).send(error));
     },
-    index(req, res) {
-        console.log(req.params);
+    index(req, res) {   
         return Message
             .findAll({
-                where: { userId: req.params.userId }
+                where: { 
+                    userId: req.params.userId,
+                    recipientId: req.query.recipientId
+                 }
             })
             .then(messages => res.json(messages))
             .catch(error => res.status(400).send(error));

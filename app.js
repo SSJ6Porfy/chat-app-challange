@@ -1,8 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const session = require('cookie-session');
+const passport = require('passport');
 const db = require('./server/models');
 var path = require('path');
 const ejs = require('ejs');
@@ -17,18 +16,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Parse cookies in the browser
-app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use(session({
-  key: 'user_sid',
-  secret: 'asappcodingchallenge',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-      expires: 600000
-  }
-}));
+require('./server/config/passport')(passport);
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/frontend/static"));

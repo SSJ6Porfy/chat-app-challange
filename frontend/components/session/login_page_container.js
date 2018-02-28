@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
-import SignupLoginPage from "./session_login_form";
-import { login, signup } from "../../actions/session_actions";
+import SignupLoginPage from "./login_page";
+import { logIn, signUp } from "../../actions/session_actions";
 
 const mapStateToProps = (state, ownProps) => {
-  const signedIn = !!state.session.currentUser;
+  const signedIn = state.session.currentUser || localStorage.currentUser;
   const { formType } = ownProps;
-  return { signedIn, errors: state.errors.session || [], formType };
+  return { signedIn, errors: state.session || [], formType };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  login: (user) => dispatch(login(user)),
-  signup: (user) => dispatch(signup(user))
+  logIn: (user) => dispatch(logIn(user)),
+  signUp: (user) => dispatch(signUp(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupLoginPage);

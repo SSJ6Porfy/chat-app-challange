@@ -8,7 +8,7 @@ class SignupLoginPage extends Component {
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleDemoLogIn = this.handleDemoLogIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
-    this.state = {username: "", email: "", password: ""};
+    this.state = { username: "", password: ""};
   }
 
   componentDidMount () {
@@ -17,9 +17,10 @@ class SignupLoginPage extends Component {
 
   componentDidUpdate() {
     if (this.props.currentUser) {
-      this.props.history.push('/index');
+      this.props.history.push('/chatroom');
     }
   }
+
 
   handleSignUp(e) {
     e.preventDefault();
@@ -29,8 +30,9 @@ class SignupLoginPage extends Component {
   handleLogIn(e) {
     e.preventDefault();
     this.props.logIn({username: this.state.username,
-                      password: this.state.password});
-    this.setState({username: "", password: ""});
+                      password: this.state.password})
+                      .then(() => this.props.history.push('/chatroom')); 
+    this.setState({username: "", password: ""}); 
   }
 
   handleDemoLogIn(e) {
@@ -56,7 +58,7 @@ class SignupLoginPage extends Component {
     const form = this.props.currentUser ?
       <div className="splash-logged-in">
         <button onClick={this.handleSignOut}>You're logged in. Sign Out!</button>
-        <Link to={"/index"}> See Recent Translations</Link>
+        <Link to={"/chatroom"}>Go to Chatroom</Link>
       </div> :
         <div>
           <form onSubmit={this.handleSignUp}>
