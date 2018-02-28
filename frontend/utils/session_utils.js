@@ -18,7 +18,7 @@ export const login = user => (
   
   export const logout = () => (
     axios({
-      method: 'DELETE',
+      method: 'GET',
       url: '/api/logout'
     })
   );

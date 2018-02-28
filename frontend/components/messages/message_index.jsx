@@ -6,7 +6,7 @@ class MessagesIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchMessages(this.props.userId, this.props.recipientId);
+        this.props.fetchMessages(this.props.currentUser.user.id, this.props.senderId, this.props.recipientId);
     }
 
     render() {

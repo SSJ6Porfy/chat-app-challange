@@ -6,10 +6,8 @@ import { loadState, saveState } from './store/localStorage';
 
 const persistedState = loadState();
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
-  const store = configureStore(persistedState);
+  let store = configureStore(persistedState);
 
   store.subscribe(() => {
     saveState(store.getState());

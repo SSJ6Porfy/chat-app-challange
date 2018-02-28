@@ -16,6 +16,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      senderId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       body: {
         type: Sequelize.STRING
       },

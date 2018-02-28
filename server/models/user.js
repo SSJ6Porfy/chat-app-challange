@@ -48,10 +48,13 @@ module.exports = (sequelize, DataTypes) => {
   		// 1 week expiration
   		const token = jwt.sign(
 			{ _id: user._id }, 
-			process.env.JWT_TOKEN || 'supersecretkey', 
+			process.env.JWT_TOKEN || 'myreallybigsecret', 
 			{ expiresIn: 604800 });
-		
-			return `JWT ${token}`;
+			
+			const sessionToken = `JWT ${token}`;
+			user.sessionToken = sessionToken;
+			user.save().then(() => {});
+			return sessionToken;
 	};
 	
 	User.findByCredentials = function(username, password) {

@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchMessages: (userId, recipientId) => dispatch(fetchMessages(userId, recipientId)),
+  fetchMessages: (userId, senderId, recipientId) => dispatch(fetchMessages(userId, senderId, recipientId)),
   createMessage: (message) => dispatch(createMessage(message)),
 });
 

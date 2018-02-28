@@ -6,6 +6,10 @@ var Message = sequelize.define("Message", {
     type: DataTypes.INTEGER,
     allowNull: false
   },
+  senderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   recipientId: { 
     type: DataTypes.INTEGER,
     allowNull: false

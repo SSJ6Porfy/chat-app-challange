@@ -4,8 +4,8 @@ export const RECEIVE_MESSAGES = 'RECEIVE_MESSAGES';
 export const RECEIVE_MESSAGE_ERRORS = 'RECEIVE_MESSAGE_ERRORS';
 export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
 
-export const fetchMessages = (userId, recipientId) => dispatch => (
-  MessageAPIUtil.fetchMessages(userId, recipientId)
+export const fetchMessages = (userId, senderId, recipientId) => dispatch => (
+  MessageAPIUtil.fetchMessages(userId, senderId, recipientId)
     .then(res => (dispatch(receiveMessages(res.data))
     ), err => (dispatch(receiveMessageErrors(err.responseJSON))))
 );

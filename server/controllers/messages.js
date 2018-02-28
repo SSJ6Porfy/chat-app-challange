@@ -11,11 +11,13 @@ module.exports = {
             .then(message => res.json(message))
             .catch(error => res.status(400).send(error));
     },
-    index(req, res) {   
+    index(req, res) { 
+        console.log(req.query);  
         return Message
             .findAll({
                 where: { 
                     userId: req.params.userId,
+                    senderId: req.query.senderId,
                     recipientId: req.query.recipientId
                  }
             })
