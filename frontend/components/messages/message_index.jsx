@@ -3,10 +3,28 @@ import React from 'react';
 class MessagesIndex extends React.Component {
     constructor(props) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {
+            userId: this.props.currentUser.id,
+            senderId: this.props.senderId,
+            recipientId: this.props.recipientId,
+            body: ""
+        };
     }
 
     componentDidMount() {
-        this.props.fetchMessages(this.props.currentUser.id, this.props.senderId, this.props.recipientId);
+        this.props.fetchMessages(this.state.userId, this.state.senderId, this.state.recipientId);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.createMessage(this.state).then(() => console.log("created message"));
+    }
+
+    update(field) {
+        return (e) => {
+            this.setState({[field]: e.target.value});
+        };
     }
 
     render() {
@@ -31,10 +49,10 @@ class MessagesIndex extends React.Component {
                 </div>
                 <div className="message-form-container">
                     <form className="message-form">
-                        <textarea className="message-input"></textarea>
+                        <textarea className="message-input" onChange={this.update('body')}></textarea>
                     </form>
                     <div className="submit-btn-container">
-                        <button className="submit-btn">Send</button>
+                        <button className="submit-btn" onClick={this.handleSubmit}>Send</button>
                     </div>
                 </div>
             </div>

@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
 			
 			const sessionToken = `JWT ${token}`;
 			user.sessionToken = sessionToken;
-			user.save().then(() => {});
+			user.save();
 			return sessionToken;
 	};
 	

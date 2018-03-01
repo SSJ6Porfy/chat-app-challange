@@ -2,17 +2,19 @@ const Message = require("../models/index").db.Message;
 
 module.exports = {
     create(req, res) {
+        console.log(req.body.message, "inside create");
         return Message
-            .create({ 
-                senderId: req.body.senderId,
-                recipientId: req.body.recipientId,
-                body: req.body.body
+            .create({
+                userId: req.body.message.userId,
+                senderId: req.body.message.senderId,
+                recipientId: req.body.message.recipientId,
+                body: req.body.message.body
             })
             .then(message => res.json(message))
             .catch(error => res.status(400).send(error));
     },
     index(req, res) { 
-        console.log(req.user);  
+        console.log(req.sessionID);  
         return Message
             .findAll({
                 where: { 
