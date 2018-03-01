@@ -44885,9 +44885,19 @@ var MessagesIndex = function (_React$Component) {
                     );
                 });
             }
+            var name = this.props.senderId === 3 ? "Rob" : "Laura";
             return _react2.default.createElement(
                 'div',
                 { className: 'messages-index-container' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'sender-name-container' },
+                    _react2.default.createElement(
+                        'h2',
+                        { className: 'sender-name' },
+                        name
+                    )
+                ),
                 _react2.default.createElement(
                     'div',
                     { className: 'messages-index' },
@@ -44908,7 +44918,9 @@ var MessagesIndex = function (_React$Component) {
                     _react2.default.createElement(
                         'form',
                         { className: 'message-form' },
-                        _react2.default.createElement('textarea', { className: 'message-input', onChange: this.update('body') })
+                        _react2.default.createElement('textarea', { className: 'message-input',
+                            onChange: this.update('body'),
+                            placeholder: 'Send A Message' })
                     ),
                     _react2.default.createElement(
                         'div',

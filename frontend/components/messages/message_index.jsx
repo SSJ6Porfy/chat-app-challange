@@ -42,8 +42,12 @@ class MessagesIndex extends React.Component {
                 );
             });
         }
+        let name = this.props.senderId === 3 ? "Rob" : "Laura";
         return (
             <div className="messages-index-container">
+                <div className="sender-name-container">
+                    <h2 className="sender-name">{ name }</h2>
+                </div>
                 <div className="messages-index">
                     <ul className="message-list">
                         { messages }
@@ -54,7 +58,9 @@ class MessagesIndex extends React.Component {
                 </div>
                 <div className="message-form-container">
                     <form className="message-form">
-                        <textarea className="message-input" onChange={this.update('body')}></textarea>
+                        <textarea className="message-input" 
+                                  onChange={this.update('body')}
+                                  placeholder="Send A Message"></textarea>
                     </form>
                     <div className="submit-btn-container">
                         <button className="submit-btn" onClick={this.handleSubmit}>Send</button>
