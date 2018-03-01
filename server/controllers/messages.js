@@ -12,7 +12,7 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     index(req, res) { 
-        console.log(req.query);  
+        console.log(req.user);  
         return Message
             .findAll({
                 where: { 

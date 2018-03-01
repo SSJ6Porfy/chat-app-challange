@@ -1,0 +1,49 @@
+#main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#navbar-container {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    background: #CFD8DC;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
+}
+
+#logo-container {
+    width: 70%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#navbar-btn-container {
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+#logout-btn {
+    border: none;
+    font-family: sans-serif;
+    margin-right: 30px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#logout-btn:hover {
+    background: #FF5722;
+    color: white;
+}
+
+#logo {
+    margin-left: 30px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    color: #455A64;
+}

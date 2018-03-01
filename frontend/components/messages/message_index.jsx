@@ -6,19 +6,36 @@ class MessagesIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchMessages(this.props.currentUser.user.id, this.props.senderId, this.props.recipientId);
+        this.props.fetchMessages(this.props.currentUser.id, this.props.senderId, this.props.recipientId);
     }
 
     render() {
+        let messages = Object.values(this.props.messages);
+        if (messages.length > 0) { 
+            messages = messages.map((message, idx) => {
+                let messageType = message.senderId === this.props.senderId ? "message sent" : "message received";
+                return (
+                    <li className={messageType} key={idx+message.body}>{message.body}</li>
+                );
+            });
+        }
         return (
             <div className="messages-index-container">
                 <div className="messages-index">
-                    I'm the Message Index
+                    <ul className="message-list">
+                        { messages }
+                    </ul>
+                    <div className="typing-alert-container">
+                        I'm the typing alert
+                    </div>
                 </div>
                 <div className="message-form-container">
                     <form className="message-form">
-                        <input className="message-input" cols="30" rows="10"></input>
+                        <textarea className="message-input"></textarea>
                     </form>
+                    <div className="submit-btn-container">
+                        <button className="submit-btn">Send</button>
+                    </div>
                 </div>
             </div>
         );

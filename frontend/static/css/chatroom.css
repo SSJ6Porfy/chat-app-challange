@@ -1,15 +1,9 @@
-#main {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 #chatroom-container {
     display: flex;
     width: 80%;
     height: 80%;
-    border: 1px solid #455A64;
+    border: 1px solid rgb(224, 230, 232);
     flex-direction: row;
     padding: 1px;
+    margin-top: 5px;
 }

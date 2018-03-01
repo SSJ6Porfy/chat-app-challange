@@ -43447,15 +43447,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var App = function App() {
     return _react2.default.createElement(
-        'div',
-        { id: 'main' },
-        _react2.default.createElement('div', { id: 'navbar' }),
-        _react2.default.createElement(
-            _reactRouterDom.Switch,
-            null,
-            _react2.default.createElement(_route_utils.AuthRoute, { exact: true, path: '/', component: _login_page_container2.default }),
-            _react2.default.createElement(_route_utils.ProtectedRoute, { path: '/chatroom', component: _chatroom_container2.default })
-        )
+        _reactRouterDom.Switch,
+        null,
+        _react2.default.createElement(_route_utils.AuthRoute, { exact: true, path: '/', component: _login_page_container2.default }),
+        _react2.default.createElement(_route_utils.ProtectedRoute, { path: '/chatroom', component: _chatroom_container2.default })
     );
 };
 
@@ -44667,6 +44662,8 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(15);
+
 var _messages_index_container = __webpack_require__(147);
 
 var _messages_index_container2 = _interopRequireDefault(_messages_index_container);
@@ -44687,9 +44684,7 @@ var Chatroom = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Chatroom.__proto__ || Object.getPrototypeOf(Chatroom)).call(this, props));
 
-        _this.state = {
-            username: ""
-        };
+        _this.state = _this.props.currentUser;
         _this.handleLogout = _this.handleLogout.bind(_this);
         return _this;
     }
@@ -44697,11 +44692,9 @@ var Chatroom = function (_React$Component) {
     _createClass(Chatroom, [{
         key: 'handleLogout',
         value: function handleLogout(e) {
-            var _this2 = this;
-
             e.preventDefault();
             this.props.logout().then(function () {
-                return _this2.props.history.push('/');
+                return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
             });
         }
     }, {
@@ -44716,20 +44709,29 @@ var Chatroom = function (_React$Component) {
         value: function render() {
             var logoutBtn = this.props.currentUser ? _react2.default.createElement(
                 'button',
-                { onClick: this.handleLogout },
+                { id: 'logout-btn', onClick: this.handleLogout },
                 'Logout'
-            ) : _react2.default.createElement(
-                'h1',
-                null,
-                '""'
-            );
+            ) : null;
             return _react2.default.createElement(
                 'div',
                 { id: 'main' },
                 _react2.default.createElement(
                     'div',
                     { id: 'navbar-container' },
-                    logoutBtn
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'logo-container' },
+                        _react2.default.createElement(
+                            'h2',
+                            { id: 'logo' },
+                            'Asapp Chat'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'navbar-btn-container' },
+                        logoutBtn
+                    )
                 ),
                 _react2.default.createElement(
                     'div',
@@ -44824,18 +44826,40 @@ var MessagesIndex = function (_React$Component) {
     _createClass(MessagesIndex, [{
         key: "componentDidMount",
         value: function componentDidMount() {
-            this.props.fetchMessages(this.props.currentUser.user.id, this.props.senderId, this.props.recipientId);
+            this.props.fetchMessages(this.props.currentUser.id, this.props.senderId, this.props.recipientId);
         }
     }, {
         key: "render",
         value: function render() {
+            var _this2 = this;
+
+            var messages = Object.values(this.props.messages);
+            if (messages.length > 0) {
+                messages = messages.map(function (message, idx) {
+                    var messageType = message.senderId === _this2.props.senderId ? "message sent" : "message received";
+                    return _react2.default.createElement(
+                        "li",
+                        { className: messageType, key: idx + message.body },
+                        message.body
+                    );
+                });
+            }
             return _react2.default.createElement(
                 "div",
                 { className: "messages-index-container" },
                 _react2.default.createElement(
                     "div",
                     { className: "messages-index" },
-                    "I'm the Message Index"
+                    _react2.default.createElement(
+                        "ul",
+                        { className: "message-list" },
+                        messages
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "typing-alert-container" },
+                        "I'm the typing alert"
+                    )
                 ),
                 _react2.default.createElement(
                     "div",
@@ -44843,7 +44867,16 @@ var MessagesIndex = function (_React$Component) {
                     _react2.default.createElement(
                         "form",
                         { className: "message-form" },
-                        _react2.default.createElement("input", { className: "message-input", cols: "30", rows: "10" })
+                        _react2.default.createElement("textarea", { className: "message-input" })
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "submit-btn-container" },
+                        _react2.default.createElement(
+                            "button",
+                            { className: "submit-btn" },
+                            "Send"
+                        )
                     )
                 )
             );

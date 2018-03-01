@@ -6,14 +6,10 @@ import ChatroomContainer from "./chatroom/chatroom_container";
 import { AuthRoute, ProtectedRoute } from '../utils/route_utils';
 
 const App = () => (
-    <div id="main">
-        <div id="navbar">
-        </div>
-        <Switch>
-            <AuthRoute exact path="/" component={SignupLoginPageContainer}/>
-            <ProtectedRoute path="/chatroom" component={ChatroomContainer}/>
-        </Switch>
-    </div>
+    <Switch>
+        <AuthRoute exact path="/" component={SignupLoginPageContainer}/>
+        <ProtectedRoute path="/chatroom" component={ChatroomContainer}/>
+    </Switch>
 );
 
 export default App;

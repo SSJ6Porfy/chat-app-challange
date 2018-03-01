@@ -34,6 +34,7 @@
     font-size: 18px;
     padding-left: 5px;
     padding-bottom: 3px;
+    margin-bottom: 20px;
   }
   
   .splash-form input[type="text"]:focus,.splash-form input[type="password"]:focus {
@@ -53,10 +54,10 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-bottom: 5px;
   }
 
-  #login-btn, #demo-btn, #signup-btn {
+  #login-btn, #demo-btn, #signup-btn, #logout-btn {
     box-shadow: 2px 2px 5px #888888;
     height: 30px;
     display: flex;
