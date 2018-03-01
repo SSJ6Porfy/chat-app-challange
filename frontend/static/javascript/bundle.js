@@ -43559,7 +43559,9 @@ var SignupLoginPage = function (_Component) {
     key: 'handleSignUp',
     value: function handleSignUp(e) {
       e.preventDefault();
-      this.props.signUp(this.state);
+      this.props.signUp(this.state).then(function () {
+        return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/chatroom' });
+      });
     }
   }, {
     key: 'handleLogIn',
@@ -44628,6 +44630,8 @@ var _chatroom2 = _interopRequireDefault(_chatroom);
 
 var _session_actions = __webpack_require__(28);
 
+var _message_actions = __webpack_require__(58);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
@@ -44638,6 +44642,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
+    fetchMessages: function fetchMessages(userId, senderId, recipientId) {
+      return dispatch((0, _message_actions.fetchMessages)(userId, senderId, recipientId));
+    },
     logout: function logout() {
       return dispatch((0, _session_actions.logout)());
     }
@@ -44702,7 +44709,7 @@ var Chatroom = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             if (this.props.currentUser) {
-                this.setState({ username: this.props.currentUser.username });
+                this.props.fetchMessages(this.props.currentUser.id, 2, 3);
             }
         }
     }, {
@@ -44836,12 +44843,17 @@ var MessagesIndex = function (_React$Component) {
     }
 
     _createClass(MessagesIndex, [{
-        key: "componentDidMount",
+        key: 'componentDidMount',
         value: function componentDidMount() {
-            this.props.fetchMessages(this.state.userId, this.state.senderId, this.state.recipientId);
+            var divs = document.getElementsByClassName('message-list');
+
+            for (var index = 0; index < divs.length; index++) {
+                var element = divs[index];
+                element.scrollTop = element.scrollHeight;
+            }
         }
     }, {
-        key: "handleSubmit",
+        key: 'handleSubmit',
         value: function handleSubmit(e) {
             e.preventDefault();
             this.props.createMessage(this.state).then(function () {
@@ -44849,7 +44861,7 @@ var MessagesIndex = function (_React$Component) {
             });
         }
     }, {
-        key: "update",
+        key: 'update',
         value: function update(field) {
             var _this2 = this;
 
@@ -44858,7 +44870,7 @@ var MessagesIndex = function (_React$Component) {
             };
         }
     }, {
-        key: "render",
+        key: 'render',
         value: function render() {
             var _this3 = this;
 
@@ -44867,44 +44879,44 @@ var MessagesIndex = function (_React$Component) {
                 messages = messages.map(function (message, idx) {
                     var messageType = message.senderId === _this3.props.senderId ? "message sent" : "message received";
                     return _react2.default.createElement(
-                        "li",
+                        'li',
                         { className: messageType, key: idx + message.body },
                         message.body
                     );
                 });
             }
             return _react2.default.createElement(
-                "div",
-                { className: "messages-index-container" },
+                'div',
+                { className: 'messages-index-container' },
                 _react2.default.createElement(
-                    "div",
-                    { className: "messages-index" },
+                    'div',
+                    { className: 'messages-index' },
                     _react2.default.createElement(
-                        "ul",
-                        { className: "message-list" },
+                        'ul',
+                        { className: 'message-list' },
                         messages
                     ),
                     _react2.default.createElement(
-                        "div",
-                        { className: "typing-alert-container" },
-                        "I'm the typing alert"
+                        'div',
+                        { className: 'typing-alert-container' },
+                        'I\'m the typing alert'
                     )
                 ),
                 _react2.default.createElement(
-                    "div",
-                    { className: "message-form-container" },
+                    'div',
+                    { className: 'message-form-container' },
                     _react2.default.createElement(
-                        "form",
-                        { className: "message-form" },
-                        _react2.default.createElement("textarea", { className: "message-input", onChange: this.update('body') })
+                        'form',
+                        { className: 'message-form' },
+                        _react2.default.createElement('textarea', { className: 'message-input', onChange: this.update('body') })
                     ),
                     _react2.default.createElement(
-                        "div",
-                        { className: "submit-btn-container" },
+                        'div',
+                        { className: 'submit-btn-container' },
                         _react2.default.createElement(
-                            "button",
-                            { className: "submit-btn", onClick: this.handleSubmit },
-                            "Send"
+                            'button',
+                            { className: 'submit-btn', onClick: this.handleSubmit },
+                            'Send'
                         )
                     )
                 )

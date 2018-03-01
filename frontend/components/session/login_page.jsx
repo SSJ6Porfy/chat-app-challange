@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class SignupLoginPage extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class SignupLoginPage extends Component {
 
   handleSignUp(e) {
     e.preventDefault();
-    this.props.signUp(this.state);
+    this.props.signUp(this.state).then(() => <Redirect to="/chatroom"/>);
   }
 
   handleLogIn(e) {

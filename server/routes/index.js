@@ -12,7 +12,7 @@ app.post('/api/login', (req, res) => {
   User.findByCredentials(req.body.user.username, req.body.user.password)
       .then(user => {
           const token = user.generateToken();
-          res.json({ id: user.id, username: user.username, token: user.sessionToken });
+          res.json({ id: user.id, username: user.username });
       }).catch(() => {
           res
           .status(401)

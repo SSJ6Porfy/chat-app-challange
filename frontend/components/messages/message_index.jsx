@@ -13,7 +13,12 @@ class MessagesIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchMessages(this.state.userId, this.state.senderId, this.state.recipientId);
+        let divs = document.getElementsByClassName('message-list');
+
+        for (let index = 0; index < divs.length; index++) {
+            const element = divs[index];
+            element.scrollTop = element.scrollHeight;           
+        }
     }
 
     handleSubmit(e) {

@@ -16,7 +16,7 @@ class Chatroom extends React.Component {
 
     componentDidMount() {
         if (this.props.currentUser) {
-            this.setState({ username: this.props.currentUser.username});
+            this.props.fetchMessages(this.props.currentUser.id, 2, 3);
         }
     }
 

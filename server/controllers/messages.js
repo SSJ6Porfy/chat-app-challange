@@ -1,8 +1,8 @@
 const Message = require("../models/index").db.Message;
+const Op = require('sequelize').Op;
 
 module.exports = {
     create(req, res) {
-        console.log(req.body.message, "inside create");
         return Message
             .create({
                 userId: req.body.message.userId,
@@ -14,13 +14,14 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     index(req, res) { 
-        console.log(req.sessionID);  
+        console.log(req.params, "params");  
+        console.log(req.query, "query");  
         return Message
             .findAll({
                 where: { 
                     userId: req.params.userId,
-                    senderId: req.query.senderId,
-                    recipientId: req.query.recipientId
+                    senderId: { [Op.or]: [req.query.senderId,req.query.recipientId]},
+                    recipientId: { [Op.or]: [req.query.senderId,req.query.recipientId]}
                  }
             })
             .then(messages => res.json(messages))

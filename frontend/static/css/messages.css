@@ -40,8 +40,8 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
+    flex: 1;
+    overflow-y: auto;
 }
 
 .typing-alert-container {
@@ -56,16 +56,22 @@
     padding: 10px;
     margin: 5px;
     font-family: sans-serif;
+    max-width: 300px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 .sent {
     background: #FF5722;
     color: white;
+    align-self: flex-end;
 }
 
 .received {
     background: white;
     color: #455A64;
+    align-self: flex-start;
 }
 
 .submit-btn-container {
