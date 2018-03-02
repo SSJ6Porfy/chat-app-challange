@@ -6,9 +6,12 @@ var passport = require('passport');
 var path = require('path');
 var ejs = require('ejs');
 const http = require('http');
+var db = require('./server/models');
 
 // Set up the express app
 var app = express();
+
+app.set('port', process.env.PORT || 8000);
 
 app.use(session({ 
   secret: "myreallybigsecret",
@@ -35,5 +38,10 @@ app.get('/', (req, res) => {
   res.render(path.join(__dirname, '/frontend/static/index.ejs'));
 });
 
+console.log("inside appjs");
 
-module.exports = app;
+db.sequelize.sync().then(function() {
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+  });
+});
