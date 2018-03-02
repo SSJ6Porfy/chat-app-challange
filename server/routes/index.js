@@ -30,9 +30,7 @@ const logout = () => {
   return function (req, res) {
       var returnTo = req.query.returnTo;
       req.logout();
-      console.log(req.session, "inside logout 1");
       delete req.session;
-      console.log(req.session, "inside logout 2");
       return redir(res, returnTo);
     function redir(res, returnTo) {
       if (returnTo) {
@@ -55,13 +53,12 @@ const logout = () => {
 
 let isLoggedIn = (req, res, next) => {
     if (req.sessionID) {
-        console.log(req.session, "inside is logged in");
         next();
     } else {
         res.status(401).json({ 
                             errors: { 
                                 validation: {
-                                     message: 'Invalid username or password'          
+                                     message: "Must be logged in"
                                 }
                             }
                         });

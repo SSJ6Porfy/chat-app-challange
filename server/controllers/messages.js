@@ -13,9 +13,7 @@ module.exports = {
             .then(message => res.json(message))
             .catch(error => res.status(400).send(error));
     },
-    index(req, res) { 
-        console.log(req.params, "params");  
-        console.log(req.query, "query");  
+    index(req, res) {
         return Message
             .findAll({
                 where: { 
