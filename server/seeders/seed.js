@@ -1,5 +1,5 @@
-const User = require('../models/index').db.User;
-const Message = require("../models/index").db.Message;
+const User = require('../models/index').User;
+const Message = require("../models/index").Message;
 
 const user1 = User.create({ username: "Porfy", passwordDigest: "abcdef" });
 const user2 = User.create({ username: "Rob", passwordDigest: "abcdef" });

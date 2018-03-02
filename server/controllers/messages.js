@@ -1,4 +1,4 @@
-const Message = require("../models/index").db.Message;
+const Message = require("../models");
 const Op = require('sequelize').Op;
 
 module.exports = {

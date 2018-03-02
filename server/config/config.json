@@ -14,9 +14,9 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "porfiriomatias",
-    "password": null,
     "use_env_variable": "DATABASE_URL",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "logging":  true
   }
 }
