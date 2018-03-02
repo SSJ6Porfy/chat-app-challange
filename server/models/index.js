@@ -10,9 +10,15 @@ var db        = {};
 
 
 let sequelize;
-if (config.use_env_variable) {  
-  sequelize = new Sequelize(config.use_env_variable, config);
+if (config.use_env_variable) {
+  console.log(config, "production");
+  sequelize = new Sequelize(config.use_env_variable, { 
+    dialect: "postgres",
+    protocol: "postgres://",
+    logging:  true
+  });
 } else {
+  console.log(config, "dev");
   sequelize = new Sequelize(
     config.database, config.username, config.password, config
   );

@@ -38,7 +38,6 @@ app.get('/', (req, res) => {
   res.render(path.join(__dirname, '/frontend/static/index.ejs'));
 });
 
-console.log("inside appjs");
 
 db.sequelize.sync().then(function() {
   http.createServer(app).listen(app.get('port'), function(){

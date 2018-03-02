@@ -2,7 +2,7 @@ const usersController = require('../controllers').users;
 const messagesController = require('../controllers').messages;
 const passport = require('passport');
 const User = require('../models').User;
-console.log(User);
+
 const authenticate = passport.authenticate('jwt', { session: true });
 
 module.exports = (app) => {
