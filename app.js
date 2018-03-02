@@ -1,14 +1,14 @@
-const express = require('express');
-const session = require("express-session");
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const passport = require('passport');
-const db = require('./server/models');
-const path = require('path');
-const ejs = require('ejs');
+var express = require('express');
+var session = require("express-session");
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+var db = require('./server/models');
+var path = require('path');
+var ejs = require('ejs');
 
 // Set up the express app
-const app = express();
+var app = express();
 app.use(session({ 
   secret: "myreallybigsecret",
   proxy: true,
@@ -34,9 +34,7 @@ app.get('/', (req, res) => {
   res.render(path.join(__dirname, '/frontend/static/index.ejs'));
 });
 
-db.db.sequelize
-
-.sync({
+db.db.sequelize.sync({
       //force: true
   })
 //.sync()
@@ -44,7 +42,7 @@ db.db.sequelize
   app.listen(process.env.PORT || 3000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
-});
+}).catch((err) => console.log(err));
 
 
 
