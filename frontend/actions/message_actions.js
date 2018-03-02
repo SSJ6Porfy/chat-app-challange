@@ -7,13 +7,13 @@ export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
 export const fetchMessages = (userId, senderId, recipientId) => dispatch => (
   MessageAPIUtil.fetchMessages(userId, senderId, recipientId)
     .then(res => (dispatch(receiveMessages(res.data))
-    ), err => (dispatch(receiveMessageErrors(err.responseJSON))))
+    ), err => (dispatch(receiveMessageErrors(err.response.data.errors))))
 );
 
 export const createMessage = (message) => dispatch => (
   MessageAPIUtil.createMessage(message)
     .then(res => (dispatch(receiveMessage(res.data))
-    ), err => (dispatch(receiveMessageErrors(err.responseJSON))))
+    ), err => (dispatch(receiveMessageErrors(err.response.data.errors))))
 );
 
 

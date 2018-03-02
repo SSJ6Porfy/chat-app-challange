@@ -17,11 +17,7 @@ app.post('/api/login', (req, res) => {
           res
           .status(401)
           .json({ 
-              errors: { 
-                  validation: {
-                      message: 'Invalid username or password'          
-                  }
-              }
+              errors: { message: 'Invalid username or password' }
           });
       });
 });
@@ -42,10 +38,10 @@ const logout = () => {
   };
 };
 
+    app.post('/api/users', isLoggedIn, usersController.create);
     app.get('/api/logout', logout());
     app.get('/api/users/:userId',  isLoggedIn ,usersController.show);
-    app.get('/api/users/:userId',  isLoggedIn ,usersController.show);
-    app.post('/api/users', isLoggedIn, usersController.create);
+    
     app.get('/api/users/:userId/messages', isLoggedIn ,messagesController.index);
     app.post('/api/messages',isLoggedIn , messagesController.create);
     app.get('/api/messages/:messageId',isLoggedIn , messagesController.show);
@@ -56,11 +52,7 @@ let isLoggedIn = (req, res, next) => {
         next();
     } else {
         res.status(401).json({ 
-                            errors: { 
-                                validation: {
-                                     message: "Must be logged in"
-                                }
-                            }
+                            errors: { message: "Must be logged in" }
                         });
     }
 };

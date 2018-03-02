@@ -4,7 +4,7 @@ import { logIn, signUp, logout } from "../../actions/session_actions";
 
 const mapStateToProps = (state, ownProps) => {
   let currentUser = state.session.currentUser || localStorage.currentUser;
-  return { currentUser: currentUser };
+  return { currentUser: currentUser, errors: state.errors };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

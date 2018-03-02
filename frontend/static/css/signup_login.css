@@ -102,10 +102,13 @@
     height: 200px;
   }
   
-  .errors {
+  .errors-text {
+    font-size: 14px;
+    font-family: sans-serif;
     font-weight: bold;
     color: red;
     list-style: none;
+    margin-bottom: 10px;
   }
 
   #app-tag {

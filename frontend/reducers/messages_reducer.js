@@ -1,4 +1,3 @@
-import { merge } from "lodash";
 import { RECEIVE_MESSAGES,
          RECEIVE_MESSAGE } from "../actions/message_actions";
 
@@ -7,7 +6,7 @@ const initialState = {};
 const MessageReducer = (state = initialState, action) => {
 
   Object.freeze(state);
-  const newState = merge({}, state);
+  const newState = Object.assign({}, state);
   switch (action.type) {
     case RECEIVE_MESSAGES:
         const blankState = {};

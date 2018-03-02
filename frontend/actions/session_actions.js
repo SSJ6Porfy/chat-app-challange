@@ -9,7 +9,7 @@ export const logIn = (user) => dispatch => (
   SessionAPIUtil.login(user)
     .then(res => (dispatch(receiveCurrentUser(res.data))
     ), err => (
-    dispatch(receiveSessionErrors(err.responseJSON))
+    dispatch(receiveSessionErrors(err.response.data.errors))
   ))
 );
 
@@ -23,7 +23,7 @@ export const signUp = (user) => dispatch => (
   SessionAPIUtil.signup(user)
     .then(res => (dispatch(receiveCurrentUser(res.data))
     ), err => (
-      dispatch(receiveSessionErrors(err.responseJSON))
+      dispatch(receiveSessionErrors(err.response.data.errors))
     ))
 );
 

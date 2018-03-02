@@ -46,6 +46,19 @@ class SignupLoginPage extends Component {
     };
   }
 
+
+  renderErrors() {
+    const errors = Object.values(this.props.errors);
+    if (errors.length > 0) {
+      return errors.map((error, i) => (
+                <li key={`error-${i}`}>
+                  {error.message}
+                </li>
+              ));
+    }
+  }
+
+
   render() {
     const form = this.props.currentUser ?
       <div className="splash-logged-in">
@@ -60,9 +73,7 @@ class SignupLoginPage extends Component {
                      value={this.state.username}></input>
 
               <ul>
-                 {/* {
-                   this.props.errors.map((err) => <li className="errors" key={err}>{err}</li>)
-                 } */}
+                  <h2 className="errors-text">{this.renderErrors()}</h2>
                </ul>
               <input type="password"
                      onChange={this.update('password')}
