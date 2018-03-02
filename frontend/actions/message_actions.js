@@ -10,12 +10,11 @@ export const fetchMessages = (userId, senderId, recipientId) => dispatch => (
     ), err => (dispatch(receiveMessageErrors(err.responseJSON))))
 );
 
-export const createMessage = (message) => dispatch => {
-  console.log(message);
-  return MessageAPIUtil.createMessage(message)
+export const createMessage = (message) => dispatch => (
+  MessageAPIUtil.createMessage(message)
     .then(res => (dispatch(receiveMessage(res.data))
-    ), err => (dispatch(receiveMessageErrors(err.responseJSON))));
-  };
+    ), err => (dispatch(receiveMessageErrors(err.responseJSON))))
+);
 
 
 export const receiveMessages = (messages) => ({
@@ -31,5 +30,5 @@ export const receiveMessage = (message) => ({
 export const receiveMessageErrors = (errors) => ({
     type: RECEIVE_MESSAGE_ERRORS,
     errors
-  });
+});
   

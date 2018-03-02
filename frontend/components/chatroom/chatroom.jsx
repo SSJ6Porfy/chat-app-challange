@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import MessagesIndexContainer from '../messages/messages_index_container';
+import Navbar from '../navbar/navbar';
 
 class Chatroom extends React.Component {
     constructor(props) {
@@ -15,26 +16,21 @@ class Chatroom extends React.Component {
     }
 
     componentDidMount() {
+        // Fetch messages for the current user and the 
+        // messages between Rob and Laura
         if (this.props.currentUser) {
             this.props.fetchMessages(this.props.currentUser.id, 2, 3);
         }
     }
 
     render() {
-        let logoutBtn = this.props.currentUser ? <button id="logout-btn" onClick={this.handleLogout}>Logout</button> : null;
+        
         return (
             <div id="main">
-                <div id="navbar-container">
-                    <div id="logo-container">
-                        <h2 id="logo">Asapp Chat</h2>
-                    </div>
-                    <div id="navbar-btn-container">
-                        { logoutBtn }
-                    </div>
-                </div>
+                <Navbar currentUser={this.props.currentUser} handleLogout={this.props.logout}/>
                 <div id="chatroom-container">
-                    <MessagesIndexContainer senderId={2} recipientId={3}/>
-                    <MessagesIndexContainer senderId={3} recipientId={2}/> 
+                    <MessagesIndexContainer chatroomId={1} senderId={2} recipientId={3}/>
+                    <MessagesIndexContainer chatroomId={2} senderId={3} recipientId={2}/> 
                 </div>
             </div>
             

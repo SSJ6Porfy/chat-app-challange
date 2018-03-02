@@ -3,34 +3,75 @@ import React from 'react';
 class MessagesIndex extends React.Component {
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             userId: this.props.currentUser.id,
             senderId: this.props.senderId,
             recipientId: this.props.recipientId,
             body: ""
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.scrollBottom = this.scrollBottom.bind(this);
+        this.handleEnter = this.handleEnter.bind(this);
+        this.disableAlert = this.disableAlert.bind(this);
     }
 
-    componentDidMount() {
-        let divs = document.getElementsByClassName('message-list');
-
-        for (let index = 0; index < divs.length; index++) {
-            const element = divs[index];
-            element.scrollTop = element.scrollHeight;           
+    scrollBottom() {
+        if (this.messageList) {
+            this.messageList.scrollTop = this.messageList.scrollHeight;
         }
     }
 
+    componentDidMount() {
+        this.scrollBottom();
+    }
+      
+    componentDidUpdate() {
+        this.scrollBottom();
+    }
+
+
     handleSubmit(e) {
         e.preventDefault();
-        this.props.createMessage(this.state).then(() => console.log("created message"));
+        this.props.createMessage(this.state).then(() => { 
+            this.CurrentForm.reset();
+            this.scrollBottom();
+        });
     }
+
+    handleEnter(e) {
+        if (e.keyCode === 13) {
+            this.props.createMessage(this.state).then(() => { 
+                this.CurrentForm.reset();
+                this.scrollBottom();
+            });
+        } else {
+            let currentList = this.messageList;
+            let lists = document.getElementsByClassName('message-list');
+            for (let index = 0; index < lists.length; index++) {
+                const list = lists[index];
+                if (currentList !== list) {
+                    list.lastChild.classList.remove("disabled");
+                }
+            }
+        }
+    }
+
+    disableAlert(e) {
+        let lists = document.getElementsByClassName('message-list');
+            for (let index = 0; index < lists.length; index++) {
+                const list = lists[index];
+                list.lastChild.classList.add("disabled");
+            }
+    }
+
+
 
     update(field) {
         return (e) => {
             this.setState({[field]: e.target.value});
         };
     }
+
 
     render() {
         let messages = Object.values(this.props.messages);
@@ -43,27 +84,36 @@ class MessagesIndex extends React.Component {
             });
         }
         let name = this.props.senderId === 3 ? "Rob" : "Laura";
+        
         return (
             <div className="messages-index-container">
                 <div className="sender-name-container">
                     <h2 className="sender-name">{ name }</h2>
                 </div>
                 <div className="messages-index">
-                    <ul className="message-list">
+                    <ul className="message-list" ref={(list) => { this.messageList = list; }}>
                         { messages }
+                        <li className="typing-alert-container disabled" >
+                            <div className="typing-indicator">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </li>
                     </ul>
-                    <div className="typing-alert-container">
-                        I'm the typing alert
-                    </div>
                 </div>
                 <div className="message-form-container">
-                    <form className="message-form">
+                    <form className="message-form" ref={(form) => { this.CurrentForm = form; }}>
                         <textarea className="message-input" 
                                   onChange={this.update('body')}
+                                  onKeyDown={this.handleEnter}
+                                  onKeyUp={this.disableAlert}
                                   placeholder="Send A Message"></textarea>
                     </form>
                     <div className="submit-btn-container">
-                        <button className="submit-btn" onClick={this.handleSubmit}>Send</button>
+                        <button className="submit-btn"
+                                onClick={this.handleSubmit}
+                                >Send</button>
                     </div>
                 </div>
             </div>

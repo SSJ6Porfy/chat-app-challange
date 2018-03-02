@@ -47,3 +47,9 @@
     font-size: 30px;
     color: #455A64;
 }
+
+#image-logo {
+    height: 40px;
+    width: 40px;
+    margin-left: 5px;
+}

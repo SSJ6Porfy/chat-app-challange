@@ -2,6 +2,12 @@
     width: 49%;
     height: 100%;
     border: 1px solid rgb(224, 230, 232);
+    -moz-box-shadow: 2px 2px 5px #888888;
+    -webkit-box-shadow: 2px 2px 5px #888888;
+    box-shadow: 2px 2px 5px #888888;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
 }
 
 .messages-index {
@@ -49,9 +55,15 @@
     overflow-y: auto;
 }
 
+.message-list li:nth-last-child(2) {
+    margin-bottom: 20px;
+}
+
 .typing-alert-container {
     height: 10%;
     display: flex;
+    background: #F1F3F4;
+    margin-top: auto;
 }
 
 .sender-name-container {
@@ -66,24 +78,26 @@
     border-radius: 10px;
     font-weight: bold;
     padding: 10px;
-    margin: 5px;
     font-family: sans-serif;
     max-width: 300px;
     overflow-wrap: break-word;
     word-wrap: break-word;
     hyphens: auto;
+    margin-bottom: 5px;
 }
 
 .sent {
     background: #FF5722;
     color: white;
     align-self: flex-end;
+    margin-right: 10px;
 }
 
 .received {
     background: white;
     color: #455A64;
     align-self: flex-start;
+    margin-left: 10px;
 }
 
 .submit-btn-container {
@@ -121,4 +135,75 @@
     color: white;
     font-family: sans-serif;
     font-weight: bold;
+}
+
+.typing-indicator {
+    background-color: #455A64;
+    border-radius: 50%;
+    position: relative;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    bottom: 15px;
+    height: 40px;
+}
+.typing-indicator::before,
+.typing-indicator::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: -5px;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background-color: #455A64;
+ }
+.typing-indicator::after {
+    height: 6px;
+    width: 6px;
+    left: -10px;
+    bottom: -10px;
+ }
+.typing-indicator span {
+    height: 5px;
+    width: 5px;
+    float: left;
+    margin: 0 1px;
+    background-color: #9E9EA1;
+    display: block;
+    border-radius: 50%;
+    opacity: 0.4;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation: 1s blink infinite .3333s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation: 1s blink infinite .6666s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation: 1s blink infinite .9999s;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.disabled {
+    opacity: 0;
+    transition: 1s ease-in;
 }

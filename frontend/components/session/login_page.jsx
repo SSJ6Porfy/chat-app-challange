@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import Navbar from '../navbar/navbar';
 
 class SignupLoginPage extends Component {
   constructor(props) {
@@ -7,24 +8,15 @@ class SignupLoginPage extends Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleDemoLogIn = this.handleDemoLogIn.bind(this);
-    this.handleSignOut = this.handleSignOut.bind(this);
+    this.handlelogout = this.handleLogout.bind(this);
     this.state = { username: "", password: ""};
-  }
-
-  componentDidMount () {
-    window.scrollTo(0, 0);
-  }
-
-  componentDidUpdate() {
-    if (this.props.currentUser) {
-      this.props.history.push('/chatroom');
-    }
   }
 
 
   handleSignUp(e) {
     e.preventDefault();
-    this.props.signUp(this.state).then(() => <Redirect to="/chatroom"/>);
+    console.log(this.props, "inside signup");
+    this.props.signUp(this.state).then(() => this.props.history.push('/chatroom'));
   }
 
   handleLogIn(e) {
@@ -42,10 +34,10 @@ class SignupLoginPage extends Component {
     this.setState({username: "", password: ""});
   }
 
-  handleSignOut(e) {
+  handleLogout(e) {
     e.preventDefault();
     this.setState({username: "", email: "", password: ""});
-    this.props.logOut();
+    this.props.logout().then(() => <Redirect to="/"/>);
   }
 
   update(field) {
@@ -57,7 +49,7 @@ class SignupLoginPage extends Component {
   render() {
     const form = this.props.currentUser ?
       <div className="splash-logged-in">
-        <button onClick={this.handleSignOut}>You're logged in. Sign Out!</button>
+        <h2>You're logged in. Sign Out!</h2>
         <Link to={"/chatroom"}>Go to Chatroom</Link>
       </div> :
         <div>
@@ -94,11 +86,13 @@ class SignupLoginPage extends Component {
 
     return (
       <div className="splash">
+      <Navbar currentUser={this.props.currentUser} handleLogout={this.props.logout} />
         <div className="splash-content">
           <div className="splash-greeting">
-            <h2>Keep in touch with friends and family on</h2>
+            <img id="image-big" src="http://res.cloudinary.com/ssj6porfy/image/upload/v1519973709/AsappChat3_gmszcb.png"/>
+            <h1 id="app-tag">Keep in touch with friends and family on</h1>
             <br/>
-            <h1>Asapp Chat</h1>
+            <h1 id="app-name">Asapp Chat</h1>
           </div>
 
           <div className="splash-form">

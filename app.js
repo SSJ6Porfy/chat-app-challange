@@ -18,7 +18,7 @@ app.use(session({
 // Log requests to the console.
 app.use(logger('dev'));
 
-// Parse incoming requests data (https://github.com/expressjs/body-parser)
+// Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -37,4 +37,5 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
+
 module.exports = app;
