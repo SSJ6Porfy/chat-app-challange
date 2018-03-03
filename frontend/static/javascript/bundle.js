@@ -26549,13 +26549,15 @@ var SignupLoginPage = function (_Component) {
     value: function renderErrors() {
       var errors = Object.values(this.props.errors);
       if (errors.length > 0) {
-        return errors.map(function (error, i) {
+        errors = errors.map(function (error, i) {
+          var err = error.message ? "Username/Passowrd can not be empty" : error;
           return _react2.default.createElement(
             'li',
             { key: 'error-' + i },
-            error.message
+            err
           );
         });
+        return errors;
       }
     }
   }, {
@@ -27797,44 +27799,55 @@ var MessagesIndex = function (_React$Component) {
     }
 
     _createClass(MessagesIndex, [{
-        key: 'scrollBottom',
+        key: "scrollBottom",
         value: function scrollBottom() {
             if (this.messageList) {
                 this.messageList.scrollTop = this.messageList.scrollHeight;
             }
         }
     }, {
-        key: 'componentDidMount',
+        key: "componentDidMount",
         value: function componentDidMount() {
             this.scrollBottom();
         }
     }, {
-        key: 'componentDidUpdate',
+        key: "componentDidUpdate",
         value: function componentDidUpdate() {
             this.scrollBottom();
         }
     }, {
-        key: 'handleSubmit',
+        key: "handleSubmit",
         value: function handleSubmit(e) {
             var _this2 = this;
 
             e.preventDefault();
             this.props.createMessage(this.state).then(function () {
                 _this2.CurrentForm.reset();
-                _this2.scrollBottom();
             });
         }
     }, {
-        key: 'handleEnter',
+        key: "handleEnter",
         value: function handleEnter(e) {
             var _this3 = this;
 
-            if (e.keyCode === 13) {
+            // eliminating submission of empty messages
+            var string = document.activeElement.value.replace(/\n|\s/g, "");
+
+            if (string.length > 0 && e.keyCode === 13) {
                 this.props.createMessage(this.state).then(function () {
+                    _this3.setState({ body: "" });
                     _this3.CurrentForm.reset();
-                    _this3.scrollBottom();
                 });
+            } else if (string.length === 0) {
+                // if user hits enter but input is empty
+                document.activeElement.value = "";
+                this.setState({ body: "" });
             } else {
+                // deploys typing notifications
+                // simply remove a class from typing indicator div
+
+                // In reality this function should dispatch a throttled action to the backend
+                // server where it will route a notification to the other user
                 var currentList = this.messageList;
                 var lists = document.getElementsByClassName('message-list');
                 for (var index = 0; index < lists.length; index++) {
@@ -27846,7 +27859,7 @@ var MessagesIndex = function (_React$Component) {
             }
         }
     }, {
-        key: 'disableAlert',
+        key: "disableAlert",
         value: function disableAlert(e) {
             var lists = document.getElementsByClassName('message-list');
             for (var index = 0; index < lists.length; index++) {
@@ -27855,7 +27868,7 @@ var MessagesIndex = function (_React$Component) {
             }
         }
     }, {
-        key: 'update',
+        key: "update",
         value: function update(field) {
             var _this4 = this;
 
@@ -27864,7 +27877,7 @@ var MessagesIndex = function (_React$Component) {
             };
         }
     }, {
-        key: 'render',
+        key: "render",
         value: function render() {
             var _this5 = this;
 
@@ -27873,71 +27886,72 @@ var MessagesIndex = function (_React$Component) {
                 messages = messages.map(function (message, idx) {
                     var messageType = message.senderId === _this5.props.senderId ? "message sent" : "message received";
                     return _react2.default.createElement(
-                        'li',
+                        "li",
                         { className: messageType, key: idx + message.body },
                         message.body
                     );
                 });
             }
             var name = this.props.senderId === 3 ? "Rob" : "Laura";
-
             return _react2.default.createElement(
-                'div',
-                { className: 'messages-index-container' },
+                "div",
+                { className: "messages-index-container" },
                 _react2.default.createElement(
-                    'div',
-                    { className: 'sender-name-container' },
+                    "div",
+                    { className: "sender-name-container" },
                     _react2.default.createElement(
-                        'h2',
-                        { className: 'sender-name' },
+                        "h2",
+                        { className: "sender-name" },
                         name
                     )
                 ),
                 _react2.default.createElement(
-                    'div',
-                    { className: 'messages-index' },
+                    "div",
+                    { className: "messages-index" },
                     _react2.default.createElement(
-                        'ul',
-                        { className: 'message-list', ref: function ref(list) {
+                        "ul",
+                        { className: "message-list", ref: function ref(list) {
                                 _this5.messageList = list;
                             } },
                         messages,
                         _react2.default.createElement(
-                            'li',
-                            { className: 'typing-alert-container disabled' },
+                            "li",
+                            { className: "typing-alert-container disabled" },
                             _react2.default.createElement(
-                                'div',
-                                { className: 'typing-indicator' },
-                                _react2.default.createElement('span', null),
-                                _react2.default.createElement('span', null),
-                                _react2.default.createElement('span', null)
+                                "div",
+                                { className: "typing-indicator" },
+                                _react2.default.createElement("span", null),
+                                _react2.default.createElement("span", null),
+                                _react2.default.createElement("span", null)
                             )
                         )
                     )
                 ),
                 _react2.default.createElement(
-                    'div',
-                    { className: 'message-form-container' },
+                    "div",
+                    { className: "message-form-container" },
                     _react2.default.createElement(
-                        'form',
-                        { className: 'message-form', ref: function ref(form) {
+                        "form",
+                        { className: "message-form",
+                            ref: function ref(form) {
                                 _this5.CurrentForm = form;
                             } },
-                        _react2.default.createElement('textarea', { className: 'message-input',
-                            onChange: this.update('body'),
+                        _react2.default.createElement("textarea", { className: "message-input",
+                            name: "body",
                             onKeyDown: this.handleEnter,
                             onKeyUp: this.disableAlert,
-                            placeholder: 'Send A Message' })
+                            onChange: this.update('body'),
+                            placeholder: "Send A Message" })
                     ),
                     _react2.default.createElement(
-                        'div',
-                        { className: 'submit-btn-container' },
+                        "div",
+                        { className: "submit-btn-container" },
                         _react2.default.createElement(
-                            'button',
-                            { className: 'submit-btn',
+                            "button",
+                            { className: "submit-btn",
                                 onClick: this.handleSubmit
                             },
-                            'Send'
+                            "Send"
                         )
                     )
                 )
@@ -28138,6 +28152,7 @@ var appReducer = (0, _redux.combineReducers)({
   errors: _errors_reducer2.default
 });
 
+// destroys store if current user null
 var RootReducer = function RootReducer(state, action) {
   if (action.type === _session_actions.RECEIVE_CURRENT_USER && !action.currentUser) {
     state = undefined;

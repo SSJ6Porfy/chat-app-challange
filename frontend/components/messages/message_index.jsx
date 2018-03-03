@@ -7,7 +7,7 @@ class MessagesIndex extends React.Component {
             userId: this.props.currentUser.id,
             senderId: this.props.senderId,
             recipientId: this.props.recipientId,
-            body: ""
+            body: "",
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.scrollBottom = this.scrollBottom.bind(this);
@@ -29,22 +29,33 @@ class MessagesIndex extends React.Component {
         this.scrollBottom();
     }
 
-
     handleSubmit(e) {
         e.preventDefault();
         this.props.createMessage(this.state).then(() => { 
             this.CurrentForm.reset();
-            this.scrollBottom();
         });
     }
 
     handleEnter(e) {
-        if (e.keyCode === 13) {
+        // eliminating submission of empty messages
+        let string = document.activeElement.value.replace(/\n|\s/g, "");
+
+
+        if (string.length > 0 && e.keyCode === 13) {
             this.props.createMessage(this.state).then(() => { 
+                this.setState({ body: "" });
                 this.CurrentForm.reset();
-                this.scrollBottom();
             });
+        } else if (string.length === 0 ) {
+            // if user hits enter but input is empty
+            document.activeElement.value = "";
+            this.setState({ body: "" });
         } else {
+            // deploys typing notifications
+            // simply remove a class from typing indicator div
+
+            // In reality this function should dispatch a throttled action to the backend
+            // server where it will route a notification to the other user
             let currentList = this.messageList;
             let lists = document.getElementsByClassName('message-list');
             for (let index = 0; index < lists.length; index++) {
@@ -64,8 +75,6 @@ class MessagesIndex extends React.Component {
             }
     }
 
-
-
     update(field) {
         return (e) => {
             this.setState({[field]: e.target.value});
@@ -84,7 +93,6 @@ class MessagesIndex extends React.Component {
             });
         }
         let name = this.props.senderId === 3 ? "Rob" : "Laura";
-        
         return (
             <div className="messages-index-container">
                 <div className="sender-name-container">
@@ -103,11 +111,13 @@ class MessagesIndex extends React.Component {
                     </ul>
                 </div>
                 <div className="message-form-container">
-                    <form className="message-form" ref={(form) => { this.CurrentForm = form; }}>
+                    <form className="message-form" 
+                          ref={(form) => { this.CurrentForm = form; }}>
                         <textarea className="message-input" 
-                                  onChange={this.update('body')}
+                                  name="body"
                                   onKeyDown={this.handleEnter}
                                   onKeyUp={this.disableAlert}
+                                  onChange={this.update('body')}
                                   placeholder="Send A Message"></textarea>
                     </form>
                     <div className="submit-btn-container">

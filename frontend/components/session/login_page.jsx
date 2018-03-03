@@ -48,13 +48,15 @@ class SignupLoginPage extends Component {
 
 
   renderErrors() {
-    const errors = Object.values(this.props.errors);
+    let errors = Object.values(this.props.errors);
     if (errors.length > 0) {
-      return errors.map((error, i) => (
-                <li key={`error-${i}`}>
-                  {error.message}
-                </li>
-              ));
+      errors = errors.map((error, i) => {
+        let err = error.message ? "Username/Passowrd can not be empty" : error;
+        return ( <li key={`error-${i}`}>
+                  {err}
+                </li>);
+        });
+      return errors;
     }
   }
 

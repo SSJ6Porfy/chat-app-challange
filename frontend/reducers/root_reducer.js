@@ -11,7 +11,7 @@ const appReducer = combineReducers({
   errors: ErrorsReducer
 });
 
-
+// destroys store if current user null
 const RootReducer = (state, action) => {
   if (action.type === RECEIVE_CURRENT_USER && (!action.currentUser)) {
     state = undefined;
