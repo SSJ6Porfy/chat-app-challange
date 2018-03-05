@@ -9,7 +9,6 @@ module.exports = {
             })
             .then(user => res.json({id: user.id, username: user.username}))
             .catch(error => { 
-                console.log(error);
                 res.status(400).send(error);
             });
     },

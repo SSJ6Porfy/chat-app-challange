@@ -59,7 +59,6 @@ const logout = () => {
 };
 
 let isLoggedIn = (req, res, next) => {
-    console.log(req.user, req);
     if (req.sessionID) {
         next();
     } else {
