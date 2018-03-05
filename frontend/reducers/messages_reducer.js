@@ -8,15 +8,21 @@ const MessageReducer = (state = initialState, action) => {
   Object.freeze(state);
   const newState = Object.assign({}, state);
   switch (action.type) {
+
     case RECEIVE_MESSAGES:
         const blankState = {};
+
         action.messages.forEach((message) => {
             blankState[message.id] = message;
         });
+        
         return blankState;
+
     case RECEIVE_MESSAGE:
+
         newState[action.message.id] = action.message;
         return newState;
+
     default:
         return state;
   }

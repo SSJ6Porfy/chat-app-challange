@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Messages", {
+    return queryInterface.createTable('Chatrooms', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,23 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+        type: Sequelize.INTEGER
       },
-      recipientId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+      participantOneId: {
+        type: Sequelize.INTEGER
       },
-      senderId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      body: {
-        type: Sequelize.STRING
-      },
-      chatroomId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+      participantTwoId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +28,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Messages");
+    return queryInterface.dropTable('Chatrooms');
   }
 };

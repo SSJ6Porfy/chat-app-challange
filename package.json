@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "webpack": "webpack --watch",
     "start:dev": "nodemon app.js",
     "start": "node app.js"
@@ -12,6 +12,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SSJ6Porfy/chat-app-challange.git"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "babel-core": "^6.26.0",
@@ -24,7 +28,6 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "morgan": "^1.9.0",
-    "nodemon": "^1.15.1",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "pg": "^7.4.1",
@@ -39,5 +42,16 @@
     "sequelize": "^4.33.4",
     "sequelize-cli": "^4.0.0",
     "webpack": "^3.6.0"
+  },
+  "devDependencies": {
+    "babel-jest": "*",
+    "babel-plugin-transform-runtime": "*",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "*",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jest": "*",
+    "nodemon": "^1.15.1",
+    "regenerator-runtime": "^0.11.1"
   }
 }

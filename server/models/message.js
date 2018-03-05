@@ -17,6 +17,10 @@ var Message = sequelize.define("Message", {
   body: { 
     type: DataTypes.STRING,
     allowNull: false
+  },
+  chatroomId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 }, {});
 
@@ -24,6 +28,11 @@ Message.associate = (models) => {
   // associations can be defined here
   Message.belongsTo(models.User, {
     foreignKey: "userId",
+    onDelete: "CASCADE",
+  });
+
+  Message.belongsTo(models.Chatroom, {
+    foreignKey: "chatroomId",
     onDelete: "CASCADE",
   });
 };

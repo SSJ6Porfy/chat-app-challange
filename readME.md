@@ -4,9 +4,11 @@
 
 ## Setup
 * Download and run npm install to load dependencies
-* create and migrate a db with Postgres
+* create and migrate a db with Postgres named chat-app-dev
+* run the command node server/seeders/seed.js
 * Run npm run start
 * Go to localhost://8000
+* Login as demo user for seeded data
 
 ![Wireframe Instructions](https://github.com/SSJ6Porfy/chat-app-challange/blob/master/frontend/static/images/asapp1.png)
 
@@ -21,6 +23,8 @@
 
 ### Backend
 
+* Framework
+  * Node.js
 * Database
   * PostgreSQL, an object-relational database management system (ORDBMS) was used
 for the database.  

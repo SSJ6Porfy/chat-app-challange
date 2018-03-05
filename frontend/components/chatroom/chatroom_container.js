@@ -3,14 +3,18 @@ import Chatroom from "./chatroom";
 import { logout } from "../../actions/session_actions";
 import { fetchMessages } from "../../actions/message_actions";
 
+
+
 const mapStateToProps = (state, ownProps) => {
   return {
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    chatroom: state.chatroom,
+    chatroomActive: state.ui 
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchMessages: (userId, senderId, recipientId) => dispatch(fetchMessages(userId, senderId, recipientId)),
+  fetchMessages: (userId) => dispatch(fetchMessages(userId)),
   logout: () => dispatch(logout()),
 });
 

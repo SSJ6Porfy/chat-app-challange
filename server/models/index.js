@@ -9,6 +9,7 @@ var config    = require('../config/config.json')[env];
 var db        = {};
 
 
+// Set Sequelize for Dev or Production
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(config.use_env_variable, { 
@@ -33,6 +34,7 @@ fs
     db[model.name] = model;
   });
 
+// Map Classes and Associations to DB
 Object.keys(db).forEach(function(modelName) {
   if (db[modelName].associate) {
     db[modelName].associate(db);

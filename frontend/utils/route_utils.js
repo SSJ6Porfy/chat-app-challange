@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 
 const Auth = ({ component: Component, path, signIn }) => (
-  <Route path={path} render={(props) => (
+   <Route path={path} render={(props) => (
     !signIn ? (
       <Component {...props} />
     ) : (
-      <Redirect to="/" />
+      <Redirect to="/chatroom" />
     )
   )} />
 );

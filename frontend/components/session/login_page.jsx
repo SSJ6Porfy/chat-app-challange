@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Navbar from '../navbar/navbar';
+import chatroom from '../chatroom/chatroom';
 
 class SignupLoginPage extends Component {
   constructor(props) {
     super(props);
+    
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogIn = this.handleLogIn.bind(this);
     this.handleDemoLogIn = this.handleDemoLogIn.bind(this);
@@ -12,31 +14,57 @@ class SignupLoginPage extends Component {
     this.state = { username: "", password: ""};
   }
 
-
   handleSignUp(e) {
     e.preventDefault();
-    console.log(this.props, "inside signup");
-    this.props.signUp(this.state).then(() => this.props.history.push('/chatroom'));
+
+    // for purpose of coding challenge
+    // Laura and Rob are Default User IDs 2 and 3
+
+    let newChatroom = {
+      userId: null,
+      participantOneId: 2,
+      participantTwoId: 3,
+    };
+
+    this.props.signUp(this.state)
+      .then((user) => {
+        newChatroom.userId = user.currentUser.id;
+        this.props.createChatroom(newChatroom);
+      });
   }
 
   handleLogIn(e) {
     e.preventDefault();
-    this.props.logIn({username: this.state.username,
-                      password: this.state.password})
-                      .then(() => this.props.history.push('/chatroom')); 
+    this.props.logIn({ 
+                      username: this.state.username,
+                      password: this.state.password
+                    })
+                    .then((user) => { 
+                      this.props.fetchChatroom(user.currentUser.id)
+                      .then(() => this.props.fetchMessages(user.currentUser.id));
+                    }).catch((err) => {});
+    
     this.setState({username: "", password: ""}); 
   }
 
   handleDemoLogIn(e) {
     e.preventDefault();
-    this.props.logIn({username: "demo",
-                      password: "1234567890"});
-    this.setState({username: "", password: ""});
+
+    this.props.logIn({ 
+                      username: "demo",
+                      password: "1234567890"
+                    })
+                    .then((user) => { 
+                      this.props.fetchChatroom(user.currentUser.id)
+                      .then(() => this.props.fetchMessages(user.currentUser.id));
+                    }).catch((err) => {});
+
+    this.setState({username: "", password: ""}); 
   }
 
   handleLogout(e) {
     e.preventDefault();
-    this.setState({username: "", email: "", password: ""});
+    this.setState({ username: "", password: "" });
     this.props.logout().then(() => <Redirect to="/"/>);
   }
 
@@ -62,39 +90,35 @@ class SignupLoginPage extends Component {
 
 
   render() {
-    const form = this.props.currentUser ?
-      <div className="splash-logged-in">
-        <h2>You're logged in. Sign Out!</h2>
-        <Link to={"/chatroom"}>Go to Chatroom</Link>
-      </div> :
-        <div>
-          <form onSubmit={this.handleSignUp}>
-              <input type="text"
-                     onChange={this.update('username')}
-                     placeholder="Username"
-                     value={this.state.username}></input>
+    const form = <div id="session-form-container">
+                  <form onSubmit={this.handleSignUp}>
+                      <input type="text"
+                            onChange={this.update('username')}
+                            placeholder="Username"
+                            value={this.state.username}></input>
 
-              <ul>
-                  <h2 className="errors-text">{this.renderErrors()}</h2>
-               </ul>
-              <input type="password"
-                     onChange={this.update('password')}
-                     placeholder="Password"
-                     value={this.state.password}></input>
+                      <ul>
+                          <h2 className="errors-text">{this.renderErrors()}</h2>
+                      </ul>
 
-            <div className="login-btn-container">
-              <button id="login-btn" onClick={this.handleLogIn}>
-                Login
-              </button>
-              <button id="demo-btn" onClick={this.handleDemoLogIn}>
-                Demo
-              </button>
-              <button id="signup-btn" onClick={this.handleSignUp}>
-                  Signup
-              </button>
-            </div>
-          </form>
-        </div>;
+                      <input type="password"
+                            onChange={this.update('password')}
+                            placeholder="Password"
+                            value={this.state.password}></input>
+
+                      <div className="login-btn-container">
+                        <button id="login-btn" onClick={this.handleLogIn}>
+                          Login
+                        </button>
+                        <button id="demo-btn" onClick={this.handleDemoLogIn}>
+                          Demo
+                        </button>
+                        <button id="signup-btn" onClick={this.handleSignUp}>
+                            Signup
+                        </button>
+                      </div>
+                  </form>
+                </div>;
 
 
     return (

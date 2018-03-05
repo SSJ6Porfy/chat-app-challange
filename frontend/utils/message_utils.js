@@ -8,11 +8,11 @@ export const fetchMessages = (userId, senderId,recipientId) => {
   });
 };
 
-export const createMessage = (message) => (
-  axios({
+export const createMessage = (message) => {
+  return axios({
     method: 'POST',
     url: '/api/messages',
     data: { message }
-  })
-);
+  });
+};
 

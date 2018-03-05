@@ -7,7 +7,7 @@ import { AuthRoute, ProtectedRoute } from '../utils/route_utils';
 
 const App = () => (
     <Switch>
-        <Route exact path="/" component={SignupLoginPageContainer}/>
+        <AuthRoute exact path="/" component={SignupLoginPageContainer}/>
         <ProtectedRoute path="/chatroom" component={ChatroomContainer}/>
     </Switch>
 );

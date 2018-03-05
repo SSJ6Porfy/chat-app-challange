@@ -1,5 +1,4 @@
 const Message = require("../models").Message;
-const Op = require('sequelize').Op;
 
 module.exports = {
     create(req, res) {
@@ -8,6 +7,7 @@ module.exports = {
                 userId: req.body.message.userId,
                 senderId: req.body.message.senderId,
                 recipientId: req.body.message.recipientId,
+                chatroomId: req.body.message.chatroomId,
                 body: req.body.message.body
             })
             .then(message => res.json(message))
@@ -17,9 +17,7 @@ module.exports = {
         return Message
             .findAll({
                 where: { 
-                    userId: req.params.userId,
-                    senderId: { [Op.or]: [req.query.senderId,req.query.recipientId]},
-                    recipientId: { [Op.or]: [req.query.senderId,req.query.recipientId]}
+                    userId: req.params.userId
                  }
             })
             .then(messages => res.json(messages))
@@ -27,7 +25,7 @@ module.exports = {
     },
     show(req, res) {
         return Message
-            .findById(req.params.id)
+            .findById(req.params.messageId)
             .then(message => res.json(message))
             .catch(error => res.status(400).send(error));
     },

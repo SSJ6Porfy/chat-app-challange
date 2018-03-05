@@ -11,16 +11,22 @@ const ErrorsReducer = (state = initialState, action) => {
     Object.freeze(state);
     const newState = Object.assign({}, state);
     switch (action.type) {
+
         case RECEIVE_MESSAGE_ERRORS:
             return action.errors;
+        
         case RECEIVE_SESSION_ERRORS:
             return action.errors;
+        
         case RECEIVE_USER_ERRORS:
             return action.errors;
+
         case RECEIVE_MESSAGE:
             return [];
+
         case RECEIVE_CURRENT_USER: 
             return [];
+            
         default:
             return state;
     }

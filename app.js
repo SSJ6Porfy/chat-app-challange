@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var path = require('path');
 var ejs = require('ejs');
-const http = require('http');
+var http = require('http');
 var db = require('./server/models');
 
 // Set up the express app
@@ -31,9 +31,11 @@ app.use(passport.session());
 require('./server/routes')(app);
 require('./server/config/passport')(passport);
 
+// Setting view engine and Static file directory
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/frontend/static"));
 
+// Setting route for React Frontend
 app.get('/', (req, res) => {
   res.render(path.join(__dirname, '/frontend/static/index.ejs'));
 });

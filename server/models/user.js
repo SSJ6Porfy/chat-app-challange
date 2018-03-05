@@ -44,8 +44,8 @@ module.exports = (sequelize, DataTypes) => {
 
 	User.prototype.generateToken = function() {
 		const user = this;
-
-  		// 1 week expiration
+			// 1 week expiration
+			console.log(process.env.JWT_TOKEN);	
   		const token = jwt.sign(
 			{ _id: user._id }, 
 			process.env.JWT_TOKEN || 'myreallybigsecret', 
@@ -61,26 +61,32 @@ module.exports = (sequelize, DataTypes) => {
 
 		return User.findOne({ where: { username: username } }).then(user => {
 		  if (!user) {
-			return Promise.reject();
+				return Promise.reject();
 		  }
 	  
-		  return new Promise((resolve, reject) => { // eslint-disable-line no-undef
-			bcrypt.compare(password, user.passwordDigest, (err, res) => {
-			  if (res) {
-				resolve(user);
-			  } else {
-				reject();
-			  }
-			});
-		  });
+		  return new Promise((resolve, reject) => {
+									bcrypt.compare(password, user.passwordDigest, (err, res) => {
+										if (res) {
+											resolve(user);
+										} else {
+											reject();
+										}
+									});
+								 });
 		});
-	  };
+	};
 
 	User.associate = (models) => {
 		User.hasMany(models.Message, {
 			foreignKey: 'userId',
 			as: 'messages',
 		});
+
+		User.hasMany(models.Chatroom, {
+			foreignKey: 'userId',
+			as: 'chatroom',
+		});
+
 	};
 	return User;
 };
