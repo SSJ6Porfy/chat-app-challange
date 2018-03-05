@@ -21,6 +21,7 @@ class MessagesIndex extends React.Component {
 
         const that = this;
         this.socket.on('RECEIVE_MESSAGE', function(data){
+            // that keeps context of this
             that.launchAlert(data);
         });
 
@@ -112,7 +113,7 @@ class MessagesIndex extends React.Component {
                 senderId: this.props.senderId,
                 recipientId: this.props.recipientId
             });
-            console.log(this.state);
+
             // removes disabled constraint from SubmitBtn
             this.submitBtn.disabled = false;
         } 

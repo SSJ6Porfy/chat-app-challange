@@ -31161,7 +31161,7 @@ var SignupLoginPage = function (_Component) {
       var errors = Object.values(this.props.errors);
       if (errors.length > 0) {
         errors = errors.map(function (error, i) {
-          var err = error.message ? "Username/Passowrd can not be empty" : error;
+          var err = error.message ? "Username/Password can not be empty" : error;
           return _react2.default.createElement(
             'li',
             { key: 'error-' + i },
@@ -32160,6 +32160,7 @@ var MessagesIndex = function (_React$Component) {
 
         var that = _this;
         _this.socket.on('RECEIVE_MESSAGE', function (data) {
+            // that keeps context of this
             that.launchAlert(data);
         });
 
@@ -32261,7 +32262,7 @@ var MessagesIndex = function (_React$Component) {
                     senderId: this.props.senderId,
                     recipientId: this.props.recipientId
                 });
-                console.log(this.state);
+
                 // removes disabled constraint from SubmitBtn
                 this.submitBtn.disabled = false;
             }

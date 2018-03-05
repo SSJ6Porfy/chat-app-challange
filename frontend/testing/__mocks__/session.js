@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Navbar from '../navbar/navbar';
-import chatroom from '../chatroom/chatroom';
+import Navbar from '../../components/navbar/navbar';
 
 class SignupLoginPage extends Component {
   constructor(props) {
