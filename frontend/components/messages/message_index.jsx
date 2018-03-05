@@ -1,4 +1,5 @@
 import React from 'react';
+import io from "socket.io-client";
 
 class MessagesIndex extends React.Component {
     constructor(props) {
@@ -16,6 +17,14 @@ class MessagesIndex extends React.Component {
         this.scrollBottom = this.scrollBottom.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
         this.disableAlert = this.disableAlert.bind(this);
+        this.socket = io(window.location.host);        
+
+        const that = this;
+        this.socket.on('RECEIVE_MESSAGE', function(data){
+            that.launchAlert(data);
+        });
+
+        this.launchAlert = this.launchAlert.bind(this);
     }
 
     scrollBottom() {
@@ -46,10 +55,10 @@ class MessagesIndex extends React.Component {
         this.scrollBottom();
     }
 
-    componentWillReceiveProps(newProps) {
-        // will look for active status in props
-        if (newProps.activeId === this.props.senderId) {
-            this.otherMessageList.lastChild.classList.remove("disabled");            
+
+    launchAlert(data) {
+        if (data.recipientId === this.props.recipientId) {
+            this.otherMessageList.lastChild.classList.remove("disabled"); 
         } else {
             this.otherMessageList.lastChild.classList.add("disabled"); 
         }
@@ -74,6 +83,11 @@ class MessagesIndex extends React.Component {
             let newMessage = this.state;
 
             newMessage.chatroomId = this.props.chatroom.id;
+
+            this.socket.emit('SENT_MESSAGE', {
+                senderId: null,
+                recipientId: null
+            });
             
             this.props.createMessage(newMessage).then(() => { 
                 this.setState({ body: "" });
@@ -87,13 +101,11 @@ class MessagesIndex extends React.Component {
             // simply remove a class from typing indicator div
             // the IF statement throttles the dispatching of fetchNotification
             // by 10 seconds to prevent unnecessary calls to the backend
-            
-            if (!this.props.activeId || this.props.activeId !== this.props.senderId) {
-                this.props.fetchNotification(this.props.chatroom.id, this.props.senderId)
-                .then(() => {
-                    setTimeout(() => { this.props.clearNotification({}); },10000);
-                });
-            }
+
+            this.socket.emit('SEND_MESSAGE', {
+                senderId: this.props.senderId,
+                recipientId: this.props.recipientId
+            });
             
             // removes disabled constraint from SubmitBtn
             this.submitBtn.disabled = false;

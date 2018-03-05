@@ -7,6 +7,7 @@ var path = require('path');
 var ejs = require('ejs');
 var http = require('http');
 var db = require('./server/models');
+var socket = require('socket.io');
 
 // Set up the express app
 var app = express();
@@ -42,7 +43,21 @@ app.get('/', (req, res) => {
 
 
 db.sequelize.sync().then(function() {
-  http.createServer(app).listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
-  });
+    var server = http.createServer(app).listen(app.get('port'), function(){
+      console.log('Express server listening on port ' + app.get('port'));
+    });
+
+    var io = socket(server);
+
+    io.on('connection', (socket) => {
+
+      socket.on('SEND_MESSAGE', function(data){
+          io.emit('RECEIVE_MESSAGE', data);
+      });
+
+      socket.on('SENT_MESSAGE', function(data){
+        io.emit('RECEIVE_MESSAGE', data);
+      });
+    });
 });
+
