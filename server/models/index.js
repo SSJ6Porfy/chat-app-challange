@@ -12,7 +12,7 @@ var db        = {};
 // Set Sequelize for Dev or Production
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(config.use_env_variable, { 
+  sequelize = new Sequelize(process.env.HEROKU_POSTGRESQL_ORANGE_URL, { 
     dialect: "postgres",
     protocol: "postgres",
     logging:  true
