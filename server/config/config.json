@@ -14,6 +14,6 @@
     "dialect": "postgres"
   },
   "production": {
-    "use_env_variable": "HEROKU_POSTGRESQL_ORANGE_URL"
+    "use_env_variable": "postgres://wzlzwyldovmcvz:fa03337d0717a8eb1925a57d8b7cc31727399a3828389a3615a6166026b29bf7@ec2-54-225-249-161.compute-1.amazonaws.com:5432/dno0b3l0d82hj"
   }
 }
