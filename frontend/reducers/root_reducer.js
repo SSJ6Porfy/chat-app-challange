@@ -3,7 +3,6 @@ import MessageReducer from './messages_reducer';
 import SessionReducer from './session_reducer';
 import ErrorsReducer from './errors_reducer';
 import ChatroomReducer from './chatroom_reducer';
-import uiReducer from './ui_reducer';
 import { RECEIVE_CURRENT_USER } from '../actions/session_actions';
 import chatroom from '../components/chatroom/chatroom';
 
@@ -12,7 +11,6 @@ const appReducer = combineReducers({
   session: SessionReducer,
   messages: MessageReducer,
   chatroom: ChatroomReducer,
-  ui: uiReducer,
   errors: ErrorsReducer
 });
 

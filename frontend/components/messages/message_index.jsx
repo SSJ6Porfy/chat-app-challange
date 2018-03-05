@@ -67,6 +67,12 @@ class MessagesIndex extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         if (this.state.body) {
+            
+            this.socket.emit('SENT_MESSAGE', {
+                senderId: null,
+                recipientId: null
+            });
+            
             this.props.createMessage(this.state).then(() => { 
                 this.currentForm.reset();
                 this.setState({ body: "" });
@@ -106,7 +112,7 @@ class MessagesIndex extends React.Component {
                 senderId: this.props.senderId,
                 recipientId: this.props.recipientId
             });
-            
+            console.log(this.state);
             // removes disabled constraint from SubmitBtn
             this.submitBtn.disabled = false;
         } 

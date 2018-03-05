@@ -1,13 +1,5 @@
 import axios from 'axios';
 
-export const fetchNotification = (chatroomId, senderId) => {
-  let recipientQuery = senderId ?`?senderId=${senderId}` : "";
-  return axios({
-    method: 'GET',
-    url: `/api/chatrooms/${chatroomId}/notification${recipientQuery}`
-  });
-};
-
 export const createChatroom = (chatroom) => (
   axios({
     method: 'POST',

@@ -25,19 +25,5 @@ module.exports = {
             .findOne({ where: { userId: req.query.userId }})
             .then(chatroom => res.json(chatroom))
             .catch(error => res.status(400).send(error));
-    },
-    notification(req, res) {
-        return Chatroom
-            .findById(req.params.chatroomId)
-            .then(chatroom => {
-                let recipientId;
-                if (Number.parseInt(req.query.senderId) === chatroom.participantOneId) {
-                    recipientId = chatroom.participantTwoId;
-                } else {
-                    recipientId = chatroom.participantOneId;
-                }
-                res.json({ id: chatroom.id, recipientId: recipientId });
-            })
-            .catch(error => res.status(400).send(error));
-    },
+    }
 };

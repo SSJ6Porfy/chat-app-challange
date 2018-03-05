@@ -55,7 +55,6 @@ const logout = () => {
     app.get('/api/users/:userId/chatrooms', isLoggedIn ,chatroomsController.index);
     app.post('/api/chatrooms',isLoggedIn , chatroomsController.create);
     app.get('/api/chatrooms',isLoggedIn , chatroomsController.show);
-    app.get('/api/chatrooms/:chatroomId/notification', isLoggedIn, chatroomsController.notification);
 };
 
 let isLoggedIn = (req, res, next) => {
