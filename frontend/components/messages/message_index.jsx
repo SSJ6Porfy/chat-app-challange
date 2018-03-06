@@ -17,6 +17,7 @@ class MessagesIndex extends React.Component {
         this.scrollBottom = this.scrollBottom.bind(this);
         this.handleEnter = this.handleEnter.bind(this);
         this.disableAlert = this.disableAlert.bind(this);
+        this.handleClick = this.handleClick.bind(this);
         this.socket = io(window.location.host);        
 
         const that = this;
@@ -33,6 +34,14 @@ class MessagesIndex extends React.Component {
         if (this.messageList) {
             this.messageList.scrollTop = this.messageList.scrollHeight;
         }
+    }
+
+    handleClick() {
+        document.addEventListener('click', (e) => {
+            if (!Array.prototype.slice.call(e.target.classList).includes("message-input")) {
+                this.otherMessageList.lastChild.classList.add("disabled"); 
+            }
+        });
     }
 
     componentDidMount() {
@@ -125,6 +134,11 @@ class MessagesIndex extends React.Component {
         if ((e.keyCode === 13 || e.keyCode === 9) && string.length === 0) {
             // prevents newline character or tabbing
             e.preventDefault();
+        } else if (e.keyCode === 8 && string.length === 1) {
+            this.socket.emit('CLEAR_FORM', {
+                senderId: null,
+                recipientId: null
+            });
         }
     }
 
@@ -136,6 +150,7 @@ class MessagesIndex extends React.Component {
 
 
     render() {
+        this.handleClick();
         let messages = Object.values(this.props.messages);
 
         if (messages.length > 0) {

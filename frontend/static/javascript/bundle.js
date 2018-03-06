@@ -32156,6 +32156,7 @@ var MessagesIndex = function (_React$Component) {
         _this.scrollBottom = _this.scrollBottom.bind(_this);
         _this.handleEnter = _this.handleEnter.bind(_this);
         _this.disableAlert = _this.disableAlert.bind(_this);
+        _this.handleClick = _this.handleClick.bind(_this);
         _this.socket = (0, _socket2.default)(window.location.host);
 
         var that = _this;
@@ -32175,6 +32176,17 @@ var MessagesIndex = function (_React$Component) {
             if (this.messageList) {
                 this.messageList.scrollTop = this.messageList.scrollHeight;
             }
+        }
+    }, {
+        key: "handleClick",
+        value: function handleClick() {
+            var _this2 = this;
+
+            document.addEventListener('click', function (e) {
+                if (!Array.prototype.slice.call(e.target.classList).includes("message-input")) {
+                    _this2.otherMessageList.lastChild.classList.add("disabled");
+                }
+            });
         }
     }, {
         key: "componentDidMount",
@@ -32211,7 +32223,7 @@ var MessagesIndex = function (_React$Component) {
     }, {
         key: "handleSubmit",
         value: function handleSubmit(e) {
-            var _this2 = this;
+            var _this3 = this;
 
             e.preventDefault();
             if (this.state.body) {
@@ -32222,15 +32234,15 @@ var MessagesIndex = function (_React$Component) {
                 });
 
                 this.props.createMessage(this.state).then(function () {
-                    _this2.currentForm.reset();
-                    _this2.setState({ body: "" });
+                    _this3.currentForm.reset();
+                    _this3.setState({ body: "" });
                 });
             }
         }
     }, {
         key: "handleEnter",
         value: function handleEnter(e) {
-            var _this3 = this;
+            var _this4 = this;
 
             // eliminating submission of empty messages
             var string = document.activeElement.value.replace(/\n|\s/g, "");
@@ -32247,9 +32259,9 @@ var MessagesIndex = function (_React$Component) {
                 });
 
                 this.props.createMessage(newMessage).then(function () {
-                    _this3.setState({ body: "" });
-                    _this3.currentForm.reset();
-                    _this3.submitBtn.disabled = true;
+                    _this4.setState({ body: "" });
+                    _this4.currentForm.reset();
+                    _this4.submitBtn.disabled = true;
                 });
             } else if (string) {
 
@@ -32275,28 +32287,34 @@ var MessagesIndex = function (_React$Component) {
             if ((e.keyCode === 13 || e.keyCode === 9) && string.length === 0) {
                 // prevents newline character or tabbing
                 e.preventDefault();
+            } else if (e.keyCode === 8 && string.length === 1) {
+                this.socket.emit('CLEAR_FORM', {
+                    senderId: null,
+                    recipientId: null
+                });
             }
         }
     }, {
         key: "update",
         value: function update(field) {
-            var _this4 = this;
+            var _this5 = this;
 
             return function (e) {
-                _this4.setState((0, _defineProperty3.default)({}, field, e.target.value));
+                _this5.setState((0, _defineProperty3.default)({}, field, e.target.value));
             };
         }
     }, {
         key: "render",
         value: function render() {
-            var _this5 = this;
+            var _this6 = this;
 
+            this.handleClick();
             var messages = Object.values(this.props.messages);
 
             if (messages.length > 0) {
                 // applying sent or received styling to messages
                 messages = messages.map(function (message, idx) {
-                    var messageType = message.senderId === _this5.props.senderId ? "message sent" : "message received";
+                    var messageType = message.senderId === _this6.props.senderId ? "message sent" : "message received";
                     return _react2.default.createElement(
                         "li",
                         { className: messageType, key: idx + message.body },
@@ -32325,7 +32343,7 @@ var MessagesIndex = function (_React$Component) {
                     _react2.default.createElement(
                         "ul",
                         { className: "message-list", ref: function ref(list) {
-                                _this5.messageList = list;
+                                _this6.messageList = list;
                             } },
                         messages,
                         _react2.default.createElement(
@@ -32348,7 +32366,7 @@ var MessagesIndex = function (_React$Component) {
                         "form",
                         { className: "message-form",
                             ref: function ref(form) {
-                                _this5.currentForm = form;
+                                _this6.currentForm = form;
                             } },
                         _react2.default.createElement("textarea", { className: "message-input",
                             onKeyUp: this.handleEnter,
@@ -32363,7 +32381,7 @@ var MessagesIndex = function (_React$Component) {
                             "button",
                             { className: "submit-btn",
                                 ref: function ref(btn) {
-                                    _this5.submitBtn = btn;
+                                    _this6.submitBtn = btn;
                                 },
                                 onClick: this.handleSubmit
                             },

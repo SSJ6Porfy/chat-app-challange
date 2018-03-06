@@ -58,6 +58,10 @@ db.sequelize.sync().then(function() {
       socket.on('SENT_MESSAGE', function(data){
         io.emit('RECEIVE_MESSAGE', data);
       });
+
+      socket.on('CLEAR_FORM', function(data){
+        io.emit('RECEIVE_MESSAGE', data);
+      });
     });
 });
 
